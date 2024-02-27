@@ -1,0 +1,32 @@
+<app-cover [title]="yourTitle" [sub1]="yourSub1" [sub2]="yourSub2"></app-cover>
+
+@if (hospitalDoctors$ | async) {
+<div class="container mx-auto my-24">
+  <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-10">
+    @for (doctor of hospitalDoctors$ | async; track $index) {
+    <a [routerLink]="['/doctor', doctor.id]" (click)="scrollToTop()" data-aos="flip-up" data-aos-easing="ease-out-cubic" data-aos-duration="2000" class="card-link flex">
+      <div
+        class="card bg-gradient-to-b from-green-100 to-blue-100 shadow-xl rounded-b-3xl mb-8"
+      >
+        <h2
+          class="text-2xl font-semibold bg-gradient-to-r from-green-500 to-slate-800 text-white p-3 text-center"
+        >
+          {{ doctor.designation }}
+        </h2>
+        <div class="card-body p-4 text-center">
+          <h1 class="text-4xl text-slate-800 font-bold">{{ doctor.name }}</h1>
+          <p class="">{{ doctor.degree }}</p>
+          <h2 class="text-2xl text-pink-700 font-bold">
+            {{ doctor.specialty }}
+          </h2>
+          <p class="">{{ doctor.specialty }}</p>
+          <p class="text-purple-800 text-xl font-semibold">
+            {{ doctor.visitTime }}
+          </p>
+        </div>
+      </div>
+    </a>
+    }
+  </div>
+</div>
+}

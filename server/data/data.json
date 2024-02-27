@@ -1,0 +1,18 @@
+{
+  "department": [
+    {
+      "id": "1b7fa859-3e3c-4b9c-8bea-57d17de4cb41",
+      "companyID": 1,
+      "departmentName": "Hospital",
+      "description": "Provides comprehensive medical services including emergency care, surgeries, and specialized treatments.",
+      "imgUrl": "https://cdn.iconscout.com/icon/free/png-256/free-hospital-bed-2879769-2388995.png"
+    },
+    {
+      "id": "edd17ef4-d3c4-48a8-8349-ddb207e24f9d",
+      "companyID": 1,
+      "departmentName": "updated",
+      "description": "sdfdsfd sdfasd asasdasw dsfasedf",
+      "imgUrl": "https://i.ibb.co/Dpw88pQ/Screenshot-2023-08-22-164237.png"
+    }
+  ]
+}

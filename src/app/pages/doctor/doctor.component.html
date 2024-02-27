@@ -1,0 +1,65 @@
+<app-cover [title]="yourTitle" [sub1]="yourSub1" [sub2]="yourSub2"></app-cover>
+
+@if (doctor) {
+<div class="container mx-auto my-12 max-w-5xl px-1 md:px-12">
+  <div>
+    <div>
+      <div>
+        <h1 class="widget_title text-5xl mb-4">{{ doctor.name }}</h1>
+        <footer class="block">
+          @if (doctor.department || doctor.specialty || doctor.degree) {
+          <div class="mb-4">
+            <h3 class="widget_title font-bold">Information</h3>
+
+            @if (doctor.department) {
+            <div class="flex flex-row border-b-[1px]">
+              <span class="basis-1/4">Department</span>
+              <span class="basis-3/4">{{ doctor.department }}</span>
+            </div>
+            } @if (doctor.specialty) {
+            <div class="flex flex-row border-b-[1px]">
+              <span class="basis-1/4">Specialty </span>
+              <span class="basis-3/4">{{ doctor.specialty }}</span>
+            </div>
+            } @if (doctor.degree) {
+            <div class="flex flex-row border-b-[1px]">
+              <span class="basis-1/4">Degree</span>
+              <span class="basis-3/4">{{ doctor.degree }}</span>
+            </div>
+            } @if (doctor.description) {
+            <div>
+              <h3 class="widget_title font-bold mt-5">Description</h3>
+              <div class="flex flex-row border-b-[1px]">
+                <span class="basis-1/4"></span>
+                <span class="basis-3/4">{{ doctor.description }}</span>
+              </div>
+            </div>
+            }
+          </div>
+          } @if (doctor.visitTime || doctor.notice) {
+          <div>
+            <h3 class="widget_title font-bold">Visit Time and Fee</h3>
+            @if (doctor.visitTime) {
+            <div class="flex flex-row border-b-[1px]">
+              <span class="basis-1/4">Visit Time</span>
+              <span class="basis-3/4">{{ doctor.visitTime }}</span>
+            </div>
+            } @if (doctor.notice) {
+            <div class="flex flex-row border-b-[1px]">
+              <span class="basis-1/4">Notice</span>
+              <span class="basis-3/4">{{ doctor.notice }}</span>
+            </div>
+            }
+          </div>
+          }
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+} @else {
+<div class="text-center m-60">
+  <h1 class="text-8xl">404</h1>
+  <h2 class="text-2xl">Doctor Not found!</h2>
+</div>
+}

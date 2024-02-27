@@ -1,0 +1,20 @@
+<a class="block" [routerLink]="['/serial', category.id]">
+  <div class="card group hover:shadow-2xl shadow-lg rounded-none">
+    <figure class="px-10 pt-10">
+      <div
+        class="border-2 border-primary text-accent p-6 rounded-3xl text-5xl group-hover:bg-primary group-hover:text-white"
+      >
+      <span class="inline-block">
+        <img class="w-24 h-24" [src]="category.imgUrl" alt="">
+      </span>
+      </div>
+    </figure>
+    <div class="card-body items-center text-center">
+      <h2
+        class="card-title group-hover:text-primary font-bold text-accent capitalize"
+      >
+        {{ category.departmentName }}
+      </h2>
+    </div>
+  </div>
+</a>

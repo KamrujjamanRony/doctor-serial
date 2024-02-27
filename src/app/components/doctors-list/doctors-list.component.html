@@ -1,0 +1,9 @@
+<section class="container mx-auto">
+  <app-page-header title="Choose Doctor"></app-page-header>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    @for(doctor of doctorList; track $index){
+      <app-doctor-card [doctor]="doctor" [department]="department"></app-doctor-card>
+    }
+    
+  </div>
+</section>

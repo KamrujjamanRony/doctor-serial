@@ -1,0 +1,194 @@
+<div
+  class="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm flex justify-center items-center"
+>
+  <div class="rounded-xl max-w-[840px] w-full max-h-[90vh] overflow-y-auto">
+    <form
+      [formGroup]="appointmentForm"
+      (submit)="onSubmit()"
+      class="bg-[#e3c9f8] p-6 space-y-6 rounded-lg shadow-lg"
+    >
+      <div class="flex justify-between">
+        <h2 class="text-2xl font-bold text-center w-full">
+          BOOK AN APPOINTMENT
+        </h2>
+        <h2 class="text-2xl font-bold text-center w-full">
+          {{doctor.name}}
+        </h2>
+
+        <button
+          class="rounded bg-red-600 p-2 w-8 h-8 text-center text-white transition-all hover:opacity-80"
+          (click)="closeAppointmentModal()"
+        >
+          <app-react-icon [icon]="ImCross"></app-react-icon>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-x-5">
+        <!-- Your Name Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">your name</span>
+          </div>
+          <input
+            type="text"
+            formControlName="yourName"
+            [class.invalid]="
+              appointmentForm.get('yourName')?.invalid && (appointmentForm.get('yourName')?.dirty || appointmentForm.get('yourName')?.touched || isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(appointmentForm.get('yourName')?.hasError('required') && (appointmentForm.get('yourName')?.dirty || appointmentForm.get('yourName')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >your name is required</span
+              >
+            </div>
+          }
+        </label>
+        <!-- Your Age Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">your Age</span>
+          </div>
+          <input
+            type="text"
+            formControlName="yourAge"
+            [class.invalid]="
+              appointmentForm.get('yourAge')?.invalid && (appointmentForm.get('yourAge')?.dirty || appointmentForm.get('yourAge')?.touched || isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm"
+            required
+          />
+          @if(appointmentForm.get('yourAge')?.hasError('required') && (appointmentForm.get('yourAge')?.dirty || appointmentForm.get('yourAge')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >your Age is required</span
+              >
+            </div>
+          }
+        </label>
+        <!-- Your Phone Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">your Phone</span>
+          </div>
+          <input
+            type="text"
+            formControlName="yourPhone"
+            [class.invalid]="
+              appointmentForm.get('yourPhone')?.invalid && (appointmentForm.get('yourPhone')?.dirty || appointmentForm.get('yourPhone')?.touched || isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm"
+            required
+          />
+          @if(appointmentForm.get('yourPhone')?.hasError('required') && (appointmentForm.get('yourPhone')?.dirty || appointmentForm.get('yourPhone')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >your Phone is required</span
+              >
+            </div>
+          }
+        </label>
+        <!-- Your Email Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">your Email</span>
+          </div>
+          <input
+            type="text"
+            formControlName="yourEmail"
+            [class.invalid]="
+              appointmentForm.get('yourEmail')?.invalid && (appointmentForm.get('yourEmail')?.dirty || appointmentForm.get('yourEmail')?.touched || isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm"
+            required
+          />
+          @if(appointmentForm.get('yourEmail')?.hasError('required') && (appointmentForm.get('yourEmail')?.dirty || appointmentForm.get('yourEmail')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >your Email is required</span
+              >
+            </div>
+          }
+        </label>
+        <!-- Appointment Date Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize"
+              >Appointment Date:</span
+            >
+          </div>
+          <select
+            class="select select-bordered select-sm w-full"
+            formControlName="appointmentDate"
+            [class.invalid]="
+              appointmentForm.get('appointmentDate')?.invalid && (appointmentForm.get('appointmentDate')?.dirty || appointmentForm.get('appointmentDate')?.touched || isSubmitted)
+            "
+            required
+          >
+            <option value="" disabled>Select Appointment Date</option>
+            <option
+              *ngFor="let date of dates"
+              [value]="date | date : 'yyyy-MM-dd'"
+              [disabled]="isPastDate(date)"
+            >
+              {{ date | date : "d MMMM, yyyy" }}
+            </option>
+          </select>
+          @if(appointmentForm.get('appointmentDate')?.hasError('required') && (appointmentForm.get('appointmentDate')?.dirty || appointmentForm.get('appointmentDate')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >Appointment Date is required</span
+              >
+            </div>
+          }
+        </label>
+        <!-- Appointment Time Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">
+              Appointment Time:
+            </span>
+          </div>
+          <select
+            class="select select-bordered select-sm w-full"
+            formControlName="appointmentTime"
+            [class.invalid]="
+              appointmentForm.get('appointmentTime')?.invalid && (appointmentForm.get('appointmentTime')?.dirty || appointmentForm.get('appointmentTime')?.touched || isSubmitted)
+            "
+            required
+          >
+            <option value="" disabled>Select Time Slot</option>
+            <ng-container *ngFor="let timeSlot of timeSlots; let i = index">
+              <!-- Use ng-container for loop -->
+              <option [value]="timeSlot">{{ timeSlot }}</option>
+            </ng-container>
+          </select>
+          @if(appointmentForm.get('appointmentTime')?.hasError('required') && (appointmentForm.get('appointmentTime')?.dirty || appointmentForm.get('appointmentTime')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >Appointment Time is required</span
+              >
+            </div>
+          }
+        </label>
+
+        
+      </div>
+
+      <div class="!mt-2">
+        <button
+          type="submit"
+          class="rounded bg-primary py-1 text-white transition-all hover:opacity-80 w-full"
+        >
+          Submit Here
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="card lg:card-side bg-base-100 shadow-xl">
+    <figure>
+      <img class="w-72 object-fill h-[300px]" [src]="doctor.img" alt="Doctor Image">
+    </figure>
+    <div class="card-body">
+      <h2 class="card-title lg:text-3xl">{{ doctor.name }}</h2>
+      <p class="text-accent font-bold">{{ doctor.degree }}</p>
+      <p>Department of {{ doctor.department }}</p>
+      <p>{{ doctor.description.slice(0, 100) }}</p>
+      @if (department) {
+        <div class="card-actions justify-end">
+            <button (click)="openDoctorDetails()" class="btn btn-outline btn-primary hover:!text-white">
+              Doctor Details
+            </button>
+            <button (click)="openAppointment()" class="btn btn-primary text-white">Appointment</button>
+          </div>
+      }
+      @else {
+        <div class="card-actions justify-end">
+            <button class="rounded bg-sky-600 px-4 py-2 text-white transition-all hover:opacity-80">Update</button>
+            <button class="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80">Delete</button>
+          </div>
+      }
+    </div>
+  </div>
+
+  @if(showModal){
+    <app-doctor-details [doctor]="doctor" (closeDoctorDetails)="closeDoctorDetails()" (handleClick)="handleClick()"></app-doctor-details>
+  }
+  
+  @if(showAppointment) {
+    <app-appointment-modal [doctor]="doctor" (closeAppointment)="closeAppointment()"></app-appointment-modal>
+  }
+  
+  
+  
+  

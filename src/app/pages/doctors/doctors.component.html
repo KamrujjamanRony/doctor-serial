@@ -1,0 +1,26 @@
+<app-cover [title]="yourTitle" [sub1]="yourSub1" [sub2]="yourSub2"></app-cover>
+
+@if (doctors$ | async) {
+<div class="container mx-auto my-24">
+  <div class="grid lg:grid-cols-3 md:grid-cols-2 justify-items-center gap-10">
+    @for (doctor of doctors$ | async; track $index) {
+    <a [routerLink]="['/doctor', doctor.id]" data-aos="flip-up" data-aos-easing="ease-out-cubic" data-aos-duration="2000" class="card-link flex">
+      <div class="card md:w-60 sm:w-[90vw] bg-base-100 shadow-xl rounded mb-8">
+        <div class="aspect-w-4 aspect-h-5">
+          <img
+            [src]="[doctor.imageId != 'string' ? doctor.imageId : emptyImg]"
+            alt="doctor"
+            class="object-cover w-full h-full"
+          />
+        </div>
+        <div class="card-body p-4">
+          <h2 class="text-2xl">{{ doctor.name }}</h2>
+          <p class="text-[#648cc3]">{{ doctor.specialty }}</p>
+          <p class="text-[#94a3b8]">{{ doctor.degree }}</p>
+        </div>
+      </div>
+    </a>
+    }
+  </div>
+</div>
+}

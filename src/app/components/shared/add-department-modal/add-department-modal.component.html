@@ -1,0 +1,103 @@
+<div
+  class="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm flex justify-center items-center"
+>
+  <div class="rounded-xl max-w-[840px] w-full max-h-[90vh] overflow-y-auto">
+    <form
+      [formGroup]="addDepartmentForm"
+      (submit)="onSubmit()"
+      class="bg-[#e3c9f8] p-6 space-y-6 rounded-lg shadow-lg"
+    >
+      <div class="flex justify-between">
+        <h2 class="text-2xl font-bold text-center w-full">Add A Department</h2>
+
+        <button
+          class="rounded bg-red-600 p-2 w-8 h-8 text-center text-white transition-all hover:opacity-80"
+          (click)="closeThisModal()"
+        >
+          <app-react-icon [icon]="ImCross"></app-react-icon>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 w-full gap-x-5">
+        <!-- departmentName Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Department Name</span>
+          </div>
+          <input
+            type="text"
+            formControlName="departmentName"
+            [class.invalid]="
+              addDepartmentForm.get('departmentName')?.invalid &&
+              (addDepartmentForm.get('departmentName')?.dirty ||
+                addDepartmentForm.get('departmentName')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addDepartmentForm.get('departmentName')?.hasError('required') &&
+          (addDepartmentForm.get('departmentName')?.dirty ||
+          addDepartmentForm.get('departmentName')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Department name is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- Image Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Department Icon</span>
+          </div>
+          <input
+            type="file"
+            (input)="onInput($event)"
+            class="file-input file-input-bordered file-input-sm w-full"
+          />
+        </label>
+        <!-- description Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Description</span>
+          </div>
+          <textarea
+            formControlName="description"
+            [class.invalid]="
+              addDepartmentForm.get('description')?.invalid &&
+              (addDepartmentForm.get('description')?.dirty ||
+                addDepartmentForm.get('description')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full"
+            required
+            cols="30"
+            rows="10"
+          ></textarea>
+          @if(addDepartmentForm.get('description')?.hasError('required') &&
+          (addDepartmentForm.get('description')?.dirty ||
+          addDepartmentForm.get('description')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Description is required</span
+            >
+          </div>
+          }
+        </label>
+
+      </div>
+
+      <div class="!mt-2">
+        <button
+          type="submit"
+          class="rounded bg-primary py-1 text-white transition-all hover:opacity-80 w-full"
+        >
+          Submit Here
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
