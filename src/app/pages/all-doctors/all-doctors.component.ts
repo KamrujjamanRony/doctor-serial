@@ -1,39 +1,72 @@
-import { Component, Renderer2 } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Component, Renderer2, inject } from '@angular/core';
 import { DoctorsService } from '../../features/services/doctors.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CoverComponent } from "../../components/shared/cover/cover.component";
-import { environment } from '../../../environments/environments';
+import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
+import { Subscription } from 'rxjs';
+import { AddDoctorModalComponent } from "../../components/shared/add-doctor-modal/add-doctor-modal.component";
+import { EditDoctorModalComponent } from "../../components/shared/edit-doctor-modal/edit-doctor-modal.component";
 
 @Component({
     selector: 'app-all-doctors',
     standalone: true,
     templateUrl: './all-doctors.component.html',
     styleUrl: './all-doctors.component.css',
-    imports: [CommonModule, RouterLink, CoverComponent]
+    imports: [CommonModule, RouterLink, CoverComponent, AddDoctorModalComponent, EditDoctorModalComponent]
 })
 export class AllDoctorsComponent {
-  yourTitle: any = 'all doctors list';
-  yourSub1: any = 'Home';
-  yourSub2: any = 'Doctors';
-  emptyImg: any = '../../../../assets/images/doctor.png';
+  doctorsService = inject(DoctorsService)
+  queryClient = injectQueryClient()
+  emptyImg: any;
+  selectedId: any;
+  addDoctorModal: boolean = false;
+  editDoctorModal: boolean = false;
+  private doctorSubscription?: Subscription;
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  query = injectQuery(() => ({
+    queryKey: ['doctors'],
+    queryFn: () => this.doctorsService.getDoctors(),
+  }));
+
   
-  hospitalDoctors$?: Observable<any[]>;
-  hospitalCode: any = environment.hospitalCode;
 
-  constructor(private doctorsService: DoctorsService, private renderer: Renderer2) {}
+  mutation = injectMutation((client) => ({
+    mutationFn: (id: any) => this.doctorsService.deleteDoctor(id),
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ['doctors'] })
+    },
+  }));
 
-  ngOnInit(): void {
-    this.hospitalDoctors$ = this.doctorsService.getAllDoctors().pipe(
-      map((doctors: any[]) =>
-        doctors.filter((doctor: any) => doctor.hospitalCode == this.hospitalCode)
-      )
-    );
+  onDelete(id: any) {
+    const result = confirm("Are you sure you want to delete this item?");
+    if (result === true) {
+      this.mutation.mutate(id);
+    }
   }
 
-  scrollToTop() {
-    // Scroll to the top of the page
-    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+  openAddDoctorModal() {
+    this.addDoctorModal = true;
+  }
+
+  openEditDoctorModal(id: any) {
+    this.selectedId = id;
+    this.editDoctorModal = true;
+  }
+
+  closeAddDoctorModal() {
+    this.addDoctorModal = false;
+  }
+
+  closeEditDoctorModal() {
+    this.editDoctorModal = false;
+  }
+
+  ngOnDestroy(): void {
+    this.doctorSubscription?.unsubscribe();
   }
 }

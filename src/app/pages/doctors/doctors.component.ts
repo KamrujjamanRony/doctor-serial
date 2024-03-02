@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Renderer2 } from '@angular/core';
+import { Observable, map } from 'rxjs';
 import { DoctorsService } from '../../features/services/doctors.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CoverComponent } from "../../components/shared/cover/cover.component";
+import { environment } from '../../../environments/environments';
 
 @Component({
     selector: 'app-doctors',
@@ -18,11 +19,22 @@ export class DoctorsComponent {
   yourSub2: any = 'Doctors';
   emptyImg: any = '../../../../assets/images/doctor.png';
   
-  doctors$?: Observable<any[]>;
+  hospitalDoctors$?: Observable<any[]>;
+  hospitalCode: any = environment.hospitalCode;
 
-  constructor(private doctorsService: DoctorsService) {}
+  constructor(private doctorsService: DoctorsService, private renderer: Renderer2) {}
+
   ngOnInit(): void {
-    this.doctors$ = this.doctorsService.getAllDoctors();
+    // this.hospitalDoctors$ = this.doctorsService.getAllDoctors().pipe(
+    //   map((doctors: any[]) =>
+    //     doctors.filter((doctor: any) => doctor.hospitalCode == this.hospitalCode)
+    //   )
+    // );
+  }
+
+  scrollToTop() {
+    // Scroll to the top of the page
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
   }
 
 }

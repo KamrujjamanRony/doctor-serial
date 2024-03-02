@@ -25,7 +25,7 @@ export class EditDepartmentModalComponent {
   queryClient = injectQueryClient();
   imgUrl!: any;
   selected!: any;
-  private addDepartmentSubscription?: Subscription;
+  private editDepartmentSubscription?: Subscription;
 
   closeThisModal(): void {
     this.closeModal.emit();
@@ -34,13 +34,10 @@ export class EditDepartmentModalComponent {
   ImCross = ImCross;
   isSubmitted = false;
 
-  constructor() {
-    
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    const departments = this.queryClient.getQueryData(['departments']) as any[];
-    this.selected = departments?.find((d) => d.id == this.id);
+    this.selected = this.departmentService.getDepartment(this.id)
     this.updateFormValues();
    }
 
@@ -106,6 +103,6 @@ export class EditDepartmentModalComponent {
   };
 
   ngOnDestroy(): void {
-    this.addDepartmentSubscription?.unsubscribe();
+    this.editDepartmentSubscription?.unsubscribe();
   }
 }

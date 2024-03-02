@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
@@ -16,8 +16,9 @@ export class ActiveLinkComponent {
   @Input() to!: string;
   @Input() children!: string;
   @Input() isDropdownOpen!: boolean;
+  router = inject(Router);
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   get isActive(): boolean {
     if (this.router.url.includes(this.to)) {

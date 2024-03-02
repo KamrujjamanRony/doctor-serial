@@ -1,11 +1,10 @@
 <div class="card lg:card-side bg-base-100 shadow-xl">
     <figure>
-      <img class="w-72 object-fill h-[300px]" [src]="doctor.img" alt="Doctor Image">
+      <img class="w-72 object-fill h-[300px]" [src]="doctor.imageUrl" alt="Doctor Image">
     </figure>
     <div class="card-body">
-      <h2 class="card-title lg:text-3xl">{{ doctor.name }}</h2>
+      <h2 class="card-title lg:text-3xl">{{ doctor.drName }}</h2>
       <p class="text-accent font-bold">{{ doctor.degree }}</p>
-      <p>Department of {{ doctor.department }}</p>
       <p>{{ doctor.description.slice(0, 100) }}</p>
       @if (department) {
         <div class="card-actions justify-end">

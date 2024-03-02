@@ -1,32 +1,100 @@
-<app-cover [title]="yourTitle" [sub1]="yourSub1" [sub2]="yourSub2"></app-cover>
+<app-cover
+  title="All Doctor List"
+  sub1="Dashboard"
+  sub2="Doctor"
+></app-cover>
 
-@if (hospitalDoctors$ | async) {
-<div class="container mx-auto my-24">
-  <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-10">
-    @for (doctor of hospitalDoctors$ | async; track $index) {
-    <a [routerLink]="['/doctor', doctor.id]" (click)="scrollToTop()" data-aos="flip-up" data-aos-easing="ease-out-cubic" data-aos-duration="2000" class="card-link flex">
-      <div
-        class="card bg-gradient-to-b from-green-100 to-blue-100 shadow-xl rounded-b-3xl mb-8"
-      >
-        <h2
-          class="text-2xl font-semibold bg-gradient-to-r from-green-500 to-slate-800 text-white p-3 text-center"
-        >
-          {{ doctor.designation }}
-        </h2>
-        <div class="card-body p-4 text-center">
-          <h1 class="text-4xl text-slate-800 font-bold">{{ doctor.name }}</h1>
-          <p class="">{{ doctor.degree }}</p>
-          <h2 class="text-2xl text-pink-700 font-bold">
-            {{ doctor.specialty }}
-          </h2>
-          <p class="">{{ doctor.specialty }}</p>
-          <p class="text-purple-800 text-xl font-semibold">
-            {{ doctor.visitTime }}
-          </p>
-        </div>
-      </div>
-    </a>
-    }
+<div class="container mx-auto flex justify-end">
+  <button (click)="openAddDoctorModal()" class="btn btn-primary text-white">
+    Add Doctor
+  </button>
+</div>
+
+<div class="mt-4 mx-4">
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+          >
+            <th class="px-4 py-3">Image</th>
+            <th class="px-4 py-3">Name</th>
+            <th class="px-4 py-3">Degree</th>
+            <th class="px-4 py-3">Designation</th>
+            <th class="px-4 py-3">Specialty</th>
+            <th class="px-4 py-3">Phone</th>
+            <th class="px-4 py-3">Fee</th>
+            <th class="px-4 py-3">Room</th>
+            <th class="px-4 py-3">Description</th>
+            <th class="px-4 py-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+          @switch (query.status()) { @case ('pending') {
+          <p class="text-center text-5xl">Loading...</p>
+          } @case ('error') {
+          <span>Error: {{ query.error()?.message }}</span>
+          } @default { @for (doctor of query.data(); track doctor.id) {
+          <tr
+            class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
+          >
+            <td class="px-4 py-3">
+              <img
+                [src]="doctor?.imageUrl !== '' ? doctor.imageUrl : emptyImg"
+                alt="carousel Image"
+                class="w-8 md:w-16 rounded"
+              />
+            </td>
+            <td class="px-4 py-3 text-xs">{{ doctor.drName }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor.degree }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor.designation }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor.specialty }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor.phone }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor.fee }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor.room }}</td>
+            <td class="px-4 py-3 text-sm">
+              {{ doctor?.description?.slice(0, 50) }}...
+            </td>
+            <td class="px-4 py-3 text-sm">
+              <button
+                (click)="openEditDoctorModal(doctor.id)"
+                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded dark:bg-green-700 dark:text-green-100 mr-2 inline-block my-2"
+              >
+                Edit
+              </button>
+              <button
+                (click)="onDelete(doctor.id)"
+                class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded dark:bg-red-700 dark:text-green-100 inline-block"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+          } @empty {
+          <li>No Doctor found</li>
+          } } }
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+    ></div>
   </div>
 </div>
+<!-- add modal start -->
+@if(addDoctorModal) {
+<app-add-doctor-modal
+  (closeModal)="closeAddDoctorModal()"
+></app-add-doctor-modal>
 }
+<!-- add modal end -->
+<!-- edit modal start -->
+@if(editDoctorModal) {
+  <app-edit-doctor-modal
+    [id]="selectedId"
+    (closeModal)="closeEditDoctorModal()"
+  ></app-edit-doctor-modal>
+  }
+  <!-- edit modal end -->
+

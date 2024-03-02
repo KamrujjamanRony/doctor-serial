@@ -1,0 +1,454 @@
+<div
+  class="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm flex justify-center items-center"
+>
+  <div class="rounded-xl max-w-[840px] w-full max-h-[90vh] overflow-y-auto">
+    <form
+      [formGroup]="addDoctorForm"
+      (submit)="onSubmit()"
+      class="bg-[#e3c9f8] p-6 space-y-6 rounded-lg shadow-lg"
+    >
+      <div class="flex justify-between">
+        <h2 class="text-2xl font-bold text-center w-full">Update Doctor</h2>
+
+        <button
+          class="rounded bg-red-600 p-2 w-8 h-8 text-center text-white transition-all hover:opacity-80"
+          (click)="closeThisModal()"
+        >
+          <app-react-icon [icon]="ImCross"></app-react-icon>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 w-full gap-x-5">
+        <!-- drName Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Doctor Name</span>
+          </div>
+          <input
+            type="text"
+            formControlName="drName"
+            [class.invalid]="
+              addDoctorForm.get('drName')?.invalid &&
+              (addDoctorForm.get('drName')?.dirty ||
+                addDoctorForm.get('drName')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addDoctorForm.get('drName')?.hasError('required') &&
+          (addDoctorForm.get('drName')?.dirty ||
+          addDoctorForm.get('drName')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Doctor name is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- drSerial Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Doctor Serial</span>
+          </div>
+          <input
+            type="text"
+            formControlName="drSerial"
+            [class.invalid]="
+              addDoctorForm.get('drSerial')?.invalid &&
+              (addDoctorForm.get('drSerial')?.dirty ||
+                addDoctorForm.get('drSerial')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addDoctorForm.get('drSerial')?.hasError('required') &&
+          (addDoctorForm.get('drSerial')?.dirty ||
+          addDoctorForm.get('drSerial')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Doctor serial is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- degree Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Doctor Degree</span>
+          </div>
+          <input
+            type="text"
+            formControlName="degree"
+            [class.invalid]="
+              addDoctorForm.get('degree')?.invalid &&
+              (addDoctorForm.get('degree')?.dirty ||
+                addDoctorForm.get('degree')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addDoctorForm.get('degree')?.hasError('required') &&
+          (addDoctorForm.get('degree')?.dirty ||
+          addDoctorForm.get('degree')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Doctor degree is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- designation Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Doctor Designation</span>
+          </div>
+          <input
+            type="text"
+            formControlName="designation"
+            [class.invalid]="
+              addDoctorForm.get('designation')?.invalid &&
+              (addDoctorForm.get('designation')?.dirty ||
+                addDoctorForm.get('designation')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addDoctorForm.get('designation')?.hasError('required') &&
+          (addDoctorForm.get('designation')?.dirty ||
+          addDoctorForm.get('designation')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Doctor designation is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- specialty Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Specialty</span>
+          </div>
+          <input
+            type="text"
+            formControlName="specialty"
+            [class.invalid]="
+              addDoctorForm.get('specialty')?.invalid &&
+              (addDoctorForm.get('specialty')?.dirty ||
+                addDoctorForm.get('specialty')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addDoctorForm.get('specialty')?.hasError('required') &&
+          (addDoctorForm.get('specialty')?.dirty ||
+          addDoctorForm.get('specialty')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Specialty is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- departmentId Input -->
+        <label class="form-control w-full !mt-0">
+            <div class="label !py-0">
+              <span class="label-text font-bold capitalize"
+                >Department:</span
+              >
+            </div>
+            <select
+              class="select select-bordered select-sm w-full"
+              formControlName="departmentId"
+              [class.invalid]="
+                addDoctorForm.get('departmentId')?.invalid && (addDoctorForm.get('departmentId')?.dirty || addDoctorForm.get('departmentId')?.touched || isSubmitted)
+              "
+              required
+            >
+              <option value="" disabled>Select Department</option>
+              @switch (query.status()) { @case ('pending') {
+                <option class="text-center text-5xl">Loading...</option>
+                } @case ('error') {
+                <option>Error: {{ query.error()?.message }}</option>
+                } @default { @for (department of query.data(); track department.id) {
+                <option
+                [value]="department?.id"
+              >
+                {{ department?.departmentName }}
+              </option>
+              } @empty {
+                <li>No Department found</li>
+                } } }
+            </select>
+            @if(addDoctorForm.get('departmentId')?.hasError('required') && (addDoctorForm.get('departmentId')?.dirty || addDoctorForm.get('departmentId')?.touched || isSubmitted)){
+              <div class="label !py-0">
+                <span class="label-text-alt text-rose-600 capitalize"
+                  >Department is required</span
+                >
+              </div>
+            }
+          </label>
+        <!-- phone Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Phone</span>
+          </div>
+          <input
+            type="text"
+            formControlName="phone"
+            [class.invalid]="
+              addDoctorForm.get('phone')?.invalid &&
+              (addDoctorForm.get('phone')?.dirty ||
+                addDoctorForm.get('phone')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addDoctorForm.get('phone')?.hasError('required') &&
+          (addDoctorForm.get('phone')?.dirty ||
+          addDoctorForm.get('phone')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Phone is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- fee Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Doctor Fee</span>
+          </div>
+          <input
+            type="number"
+            formControlName="fee"
+            [class.invalid]="
+              addDoctorForm.get('fee')?.invalid &&
+              (addDoctorForm.get('fee')?.dirty ||
+                addDoctorForm.get('fee')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addDoctorForm.get('fee')?.hasError('required') &&
+          (addDoctorForm.get('fee')?.dirty ||
+          addDoctorForm.get('fee')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Doctor fee is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- visitTime Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Visit Time</span>
+          </div>
+          <input
+            type="text"
+            formControlName="visitTime"
+            [class.invalid]="
+              addDoctorForm.get('visitTime')?.invalid &&
+              (addDoctorForm.get('visitTime')?.dirty ||
+                addDoctorForm.get('visitTime')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addDoctorForm.get('visitTime')?.hasError('required') &&
+          (addDoctorForm.get('visitTime')?.dirty ||
+          addDoctorForm.get('visitTime')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Visit Time is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- room Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Room No</span>
+          </div>
+          <input
+            type="text"
+            formControlName="room"
+            [class.invalid]="
+              addDoctorForm.get('room')?.invalid &&
+              (addDoctorForm.get('room')?.dirty ||
+                addDoctorForm.get('room')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addDoctorForm.get('room')?.hasError('required') &&
+          (addDoctorForm.get('room')?.dirty ||
+          addDoctorForm.get('room')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Room no. is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- Image Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Department Icon</span>
+          </div>
+          <img src={{imageUrl}} alt="department-image" class="w-20 h-20 my-2">
+          <input
+            type="file"
+            (input)="onInput($event)"
+            class="file-input file-input-bordered file-input-sm w-full"
+          />
+        </label>
+        <!-- description Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Description</span>
+          </div>
+          <textarea
+            formControlName="description"
+            [class.invalid]="
+              addDoctorForm.get('description')?.invalid &&
+              (addDoctorForm.get('description')?.dirty ||
+                addDoctorForm.get('description')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full"
+            required
+            cols="30"
+            rows="10"
+          ></textarea>
+          @if(addDoctorForm.get('description')?.hasError('required') &&
+          (addDoctorForm.get('description')?.dirty ||
+          addDoctorForm.get('description')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Description is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- additional Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Additional Info.</span>
+          </div>
+          <textarea
+            formControlName="additional"
+            [class.invalid]="
+              addDoctorForm.get('additional')?.invalid &&
+              (addDoctorForm.get('additional')?.dirty ||
+                addDoctorForm.get('additional')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full"
+            required
+            cols="30"
+            rows="10"
+          ></textarea>
+          @if(addDoctorForm.get('additional')?.hasError('required') &&
+          (addDoctorForm.get('additional')?.dirty ||
+          addDoctorForm.get('additional')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Additional Info. is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- notice Input -->
+        <label class="form-control w-full !mt-0">
+            <div class="label !py-0">
+              <span class="label-text font-bold capitalize">Notice</span>
+            </div>
+            <textarea
+              formControlName="notice"
+              [class.invalid]="
+                addDoctorForm.get('notice')?.invalid &&
+                (addDoctorForm.get('notice')?.dirty ||
+                  addDoctorForm.get('notice')?.touched ||
+                  isSubmitted)
+              "
+              placeholder="Type here"
+              class="input input-bordered w-full"
+              required
+              cols="30"
+              rows="10"
+            ></textarea>
+            @if(addDoctorForm.get('notice')?.hasError('required') &&
+            (addDoctorForm.get('notice')?.dirty ||
+            addDoctorForm.get('notice')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >Notice is required</span
+              >
+            </div>
+            }
+          </label>
+          <!-- serialBlock Input -->
+        <label class="form-control w-full !mt-0">
+            <div class="label !py-0">
+              <span class="label-text font-bold capitalize">Serial Block</span>
+            </div>
+            <input
+              type="text"
+              formControlName="serialBlock"
+              [class.invalid]="
+                addDoctorForm.get('serialBlock')?.invalid &&
+                (addDoctorForm.get('serialBlock')?.dirty ||
+                  addDoctorForm.get('serialBlock')?.touched ||
+                  isSubmitted)
+              "
+              placeholder="Type here"
+              class="input input-bordered w-full input-sm outline-none"
+              required
+            />
+            @if(addDoctorForm.get('serialBlock')?.hasError('required') &&
+            (addDoctorForm.get('serialBlock')?.dirty ||
+            addDoctorForm.get('serialBlock')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >Serial Block is required</span
+              >
+            </div>
+            }
+          </label>
+
+      </div>
+
+      <div class="!mt-2">
+        <button
+          type="submit"
+          class="rounded bg-primary py-1 text-white transition-all hover:opacity-80 w-full"
+        >
+          Submit Here
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+

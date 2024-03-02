@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CoverComponent } from "../shared/cover/cover.component";
 import { DoctorsService } from '../../features/services/doctors.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -17,23 +17,16 @@ export class DoctorsListComponent {
   doctorList: any[] = [];
   emptyImg: any = '../../../../assets/images/doctor.png';
 
+  route = inject(ActivatedRoute);
+  doctorService = inject(DoctorsService);
+
   
-  constructor(
-    private route: ActivatedRoute,
-    private doctorService: DoctorsService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       this.department = params['department'];
-      this.filterDoctorsByDepartment(this.department);
+      this.doctorList = await this.doctorService.filterDoctorsByDepartment(this.department);
     });
   }
-
-  filterDoctorsByDepartment(department: string): void {
-    this.doctorService.getDoctors().subscribe(doctors => {
-      this.doctorList = doctors.filter(doctor => doctor.department === department);
-    });
-  }
-
 }

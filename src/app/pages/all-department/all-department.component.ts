@@ -10,11 +10,11 @@ import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angula
 import { EditDepartmentModalComponent } from "../../components/shared/edit-department-modal/edit-department-modal.component";
 
 @Component({
-    selector: 'app-all-department',
-    standalone: true,
-    templateUrl: './all-department.component.html',
-    styleUrl: './all-department.component.css',
-    imports: [CoverComponent, RouterLink, AddDepartmentModalComponent, CommonModule, EditDepartmentModalComponent]
+  selector: 'app-all-department',
+  standalone: true,
+  templateUrl: './all-department.component.html',
+  styleUrl: './all-department.component.css',
+  imports: [CoverComponent, RouterLink, AddDepartmentModalComponent, CommonModule, EditDepartmentModalComponent]
 })
 export class AllDepartmentComponent {
   departmentService = inject(DepartmentService)
@@ -27,16 +27,16 @@ export class AllDepartmentComponent {
   editDepartmentModal: boolean = false;
   private departmentSubscription?: Subscription;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   query = injectQuery(() => ({
     queryKey: ['departments'],
     queryFn: () => this.departmentService.getDepartments(),
   }));
 
-  
+
 
   mutation = injectMutation((client) => ({
     mutationFn: (id: any) => this.departmentService.deleteDepartment(id),
@@ -46,7 +46,10 @@ export class AllDepartmentComponent {
   }));
 
   onDelete(id: any) {
-    this.mutation.mutate(id);
+    const result = confirm("Are you sure you want to delete this item?");
+    if (result === true) {
+      this.mutation.mutate(id);
+    }
   }
 
   // handleClick() {

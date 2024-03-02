@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DoctorDetailsComponent } from '../shared/doctor-details/doctor-details.component';
 import { AppointmentModalComponent } from '../shared/appointment-modal/appointment-modal.component';
 
@@ -8,7 +8,7 @@ import { AppointmentModalComponent } from '../shared/appointment-modal/appointme
   imports: [DoctorDetailsComponent, AppointmentModalComponent],
   templateUrl: './doctor-card.component.html'
 })
-export class DoctorCardComponent implements OnInit {
+export class DoctorCardComponent {
   @Input() 
   doctor: any;
   @Input()
@@ -17,9 +17,6 @@ export class DoctorCardComponent implements OnInit {
   showAppointment: boolean = false;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   handleClick() {
     this.showAppointment = true;

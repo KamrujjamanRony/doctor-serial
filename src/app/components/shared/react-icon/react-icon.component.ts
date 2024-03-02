@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ElementRef } from '@angular/core';
+import { Component, Input, ElementRef, inject } from '@angular/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { IconType } from 'react-icons';
@@ -9,11 +9,12 @@ import { IconType } from 'react-icons';
   imports: [],
   template: `<span></span>`
 })
-export class ReactIconComponent implements OnInit {
+export class ReactIconComponent {
+  elementRef = inject(ElementRef);
   @Input()
   icon!: IconType;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor() {}
 
   ngOnInit() {
     const container = this.elementRef.nativeElement.querySelector('span');

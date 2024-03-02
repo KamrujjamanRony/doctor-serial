@@ -1,9 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ImCross } from "react-icons/im";
 import { format, isBefore } from 'date-fns';
 import { ReactIconComponent } from '../react-icon/react-icon.component';
+import { environment } from '../../../../environments/environments';
+import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
+import { AppointmentService } from '../../../features/services/appointment.service';
+import { ToastService } from '../../../features/services/toast.service';
+import { DepartmentService } from '../../../features/services/department.service';
+import { DoctorsService } from '../../../features/services/doctors.service';
 
 @Component({
   selector: 'app-appointment-modal',
@@ -13,7 +19,13 @@ import { ReactIconComponent } from '../react-icon/react-icon.component';
   styleUrl: './appointment-modal.component.css'
 })
 export class AppointmentModalComponent {
+  fb = inject(FormBuilder);
+  toastService = inject(ToastService);
+  appointmentService = inject(AppointmentService);
+  departmentService = inject(DepartmentService);
+  doctorsService = inject(DoctorsService);
   @Input() doctor: any;
+  @Input() id!: any;
   @Output() closeAppointment = new EventEmitter<void>();
 
   closeAppointmentModal(): void {
@@ -23,36 +35,100 @@ export class AppointmentModalComponent {
   format = format;
   ImCross = ImCross;
   isSubmitted = false;
+  selected!: any;
 
-  constructor(private fb: FormBuilder){}
+  departmentQuery = injectQuery(() => ({
+    queryKey: ['departments'],
+    queryFn: () => this.departmentService.getDepartments(),
+  }));
+
+  doctorQuery = injectQuery(() => ({
+    queryKey: ['doctors'],
+    queryFn: () => this.doctorsService.getDoctors(),
+  }));
+
+  appointmentMutation = injectMutation((client) => ({
+    mutationFn: (formData: any) => this.appointmentService.addAppointment(formData),
+    onSuccess: () => {
+      // Invalidate and refetch by using the client directly
+      client.invalidateQueries({ queryKey: ['appointments'] })
+    },
+  }));
+
+  UpdateAppointmentMutation = injectMutation((client) => ({
+    mutationFn: (formData: any) => this.appointmentService.updateAppointment(this.selected.id, formData),
+    onSuccess: () => {
+      // Invalidate and refetch by using the client directly
+      client.invalidateQueries({ queryKey: ['appointments'] })
+    },
+  }));
+
+  constructor() { }
+
+  ngOnInit(): void {
+    this.selected = this.appointmentService.getAppointment(this.id);
+    this.updateFormValues();
+  }
 
   appointmentForm = this.fb.group({
-    yourName: ['', Validators.required],
-    yourAge: ['', Validators.required],
-    yourPhone: ['', Validators.required],
-    yourEmail: ['', [Validators.required, Validators.email]],
-    appointmentDate: ['', Validators.required],
-    appointmentTime: ['', Validators.required],
+    companyID: [environment.hospitalCode],
+    pName: ['', Validators.required],
+    age: ['', Validators.required],
+    sex: ['', Validators.required],
+    type: [true],
+    date: ['', Validators.required],
+    sL: [0],
+    departmentId: [''],
+    drCode: [''],
+    fee: [''],
+    paymentStatus: [false],
+    confirmed: [false],
   })
 
-  onSubmit(): void {
-    const {yourName, yourAge, yourPhone, yourEmail, appointmentDate, appointmentTime} = this.appointmentForm.value;
-    if (yourName && yourAge && yourPhone && yourEmail && appointmentDate && appointmentTime) {
-      console.log('submitted form', this.appointmentForm.value);
-      this.closeAppointmentModal()
+  updateFormValues(): void {
+    if (this.selected) {
+      this.appointmentForm.patchValue({
+        pName: this.selected.pName,
+        age: this.selected.age,
+        sex: this.selected.sex,
+        type: this.selected.type,
+        date: this.selected.date,
+        sL: this.selected.sL,
+        departmentId: this.selected.departmentId,
+        drCode: this.selected.drCode,
+        fee: this.selected.fee,
+        paymentStatus: this.selected.paymentStatus,
+        confirmed: this.selected.confirmed,
+      });
     }
-    this.isSubmitted = true;
+  }
+
+  onSubmit(): void {
+    const { pName, age, sex, date, type } = this.appointmentForm.value;
+    if (pName && age && sex && date) {
+      if (!this.selected) {
+        console.log('submitted form', this.appointmentForm.value);
+        const formData = { ...this.appointmentForm.value, departmentId: this.doctor.departmentId, sL: 5, drCode: this.doctor.id, fee: this.doctor.fee, id: crypto.randomUUID() }
+        this.appointmentMutation.mutate(formData);
+        this.closeAppointmentModal();
+        // toast
+        this.toastService.showToast('Appointment is successfully added!');
+        this.isSubmitted = true;
+      } else {
+        const formData = { ...this.appointmentForm.value, id: this.selected.id };
+        this.UpdateAppointmentMutation.mutate(formData);
+        this.closeAppointmentModal();
+        // toast
+        this.toastService.showToast('Appointment is successfully updated!');
+        this.isSubmitted = true;
+      }
+    }
   }
 
   dates: Date[] = Array.from({ length: 8 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() + i);
     return date;
-  });
-
-  timeSlots: string[] = Array.from({ length: 13 }, (_, i) => {
-    const hour = (i + 9).toString().padStart(2, '0');
-    return `${hour}:00 - ${hour}:59`;
   });
 
   // Define the isPastDate method
