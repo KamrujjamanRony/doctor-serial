@@ -1,29 +1,129 @@
-<div
-  class="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm flex justify-center items-center"
->
-  <div class="rounded-xl max-w-[840px] w-full max-h-[90vh] overflow-y-auto">
+<div class="rounded-xl max-w-[840px] w-full max-h-[90vh] overflow-y-auto mx-auto">
     <form
       [formGroup]="appointmentForm"
       (submit)="onSubmit()"
-      class="bg-[#e3c9f8] p-6 space-y-6 rounded-lg shadow-lg"
+      class="p-6 space-y-6 rounded-lg shadow-lg"
     >
-      <div class="flex justify-between">
         <h2 class="text-2xl font-bold text-center w-full">
-          {{selected ? "UPDATE APPOINTMENT" : "BOOK AN APPOINTMENT"}}
+          BOOK AN APPOINTMENT
         </h2>
-        <h2 class="text-2xl font-bold text-center w-full">
-          {{doctor?.name}}
-        </h2>
-
-        <button
-          class="rounded bg-red-600 p-2 w-8 h-8 text-center text-white transition-all hover:opacity-80"
-          (click)="closeAppointmentModal()"
-        >
-          <app-react-icon [icon]="ImCross"></app-react-icon>
-        </button>
-      </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-x-5">
+        <!-- departmentId Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">
+              Department:
+            </span>
+          </div>
+          <select
+            class="select select-bordered select-sm w-full"
+            formControlName="departmentId"
+            [class.invalid]="
+              appointmentForm.get('departmentId')?.invalid && (appointmentForm.get('departmentId')?.dirty || appointmentForm.get('departmentId')?.touched || isSubmitted)
+            "
+            (change)="onDepartmentChange()"
+            required
+          >
+            <option value="" disabled>Select Department</option>
+            @switch (departmentQuery.status()) { @case ('pending') {
+              <option class="text-center text-5xl">Loading...</option>
+              } @case ('error') {
+              <option>Error: {{ departmentQuery.error()?.message }}</option>
+              } @default { @for (department of departmentQuery.data(); track department.id) {
+              <option
+              [value]="department?.id"
+            >
+              {{ department?.departmentName }}
+            </option>
+            } @empty {
+              <li>No Department found</li>
+              } } }
+          </select>
+          @if(appointmentForm.get('departmentId')?.hasError('required') && (appointmentForm.get('departmentId')?.dirty || appointmentForm.get('departmentId')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >Department is required</span
+              >
+            </div>
+          }
+        </label>
+        <!-- drCode Input -->
+        @if(doctorList){
+          <label class="form-control w-full !mt-0">
+            <div class="label !py-0">
+              <span class="label-text font-bold capitalize">
+                Doctor:
+              </span>
+            </div>
+            <select
+              class="select select-bordered select-sm w-full"
+              formControlName="drCode"
+              [class.invalid]="
+                appointmentForm.get('drCode')?.invalid && (appointmentForm.get('drCode')?.dirty || appointmentForm.get('drCode')?.touched || isSubmitted)
+              "
+            (change)="onDoctorChange()"
+              required
+            >
+              <option value="" disabled>Select Doctor</option>
+              @for (doctor of doctorList; track doctor.id) {
+                <option
+                [value]="doctor?.id"
+              >
+                {{ doctor?.drName }}
+              </option>
+              } @empty {
+                <li>No Doctor found</li>
+              }
+            </select>
+            @if(appointmentForm.get('drCode')?.hasError('required') && (appointmentForm.get('drCode')?.dirty || appointmentForm.get('drCode')?.touched || isSubmitted)){
+              <div class="label !py-0">
+                <span class="label-text-alt text-rose-600 capitalize"
+                  >Doctor is required</span
+                >
+              </div>
+            }
+          </label>
+        } @else {
+          <label class="form-control w-full !mt-0">
+            <div class="label !py-0">
+              <span class="label-text font-bold capitalize">
+                Doctor:
+              </span>
+            </div>
+            <select
+              class="select select-bordered select-sm w-full"
+              formControlName="drCode"
+              [class.invalid]="
+                appointmentForm.get('drCode')?.invalid && (appointmentForm.get('drCode')?.dirty || appointmentForm.get('drCode')?.touched || isSubmitted)
+              "
+            (change)="onDoctorChange()"
+              required
+            >
+              <option value="" disabled>Select Doctor</option>
+              @switch (doctorQuery.status()) { @case ('pending') {
+                <option class="text-center text-5xl">Loading...</option>
+                } @case ('error') {
+                <option>Error: {{ doctorQuery.error()?.message }}</option>
+                } @default { @for (doctor of doctorQuery.data(); track doctor.id) {
+                <option
+                [value]="doctor?.id"
+              >
+                {{ doctor?.drName }}
+              </option>
+              } @empty {
+                <li>No Doctor found</li>
+                } } }
+            </select>
+            @if(appointmentForm.get('drCode')?.hasError('required') && (appointmentForm.get('drCode')?.dirty || appointmentForm.get('drCode')?.touched || isSubmitted)){
+              <div class="label !py-0">
+                <span class="label-text-alt text-rose-600 capitalize"
+                  >Doctor is required</span
+                >
+              </div>
+            }
+          </label>
+        }
         <!-- type Input -->
         <label class="form-control w-full !mt-0">
           <div class="label !py-0">
@@ -145,7 +245,6 @@
             </div>
           }
         </label>
-        @if(selected){
             <!-- sL Input -->
         <label class="form-control w-full !mt-0">
           <div class="label !py-0">
@@ -192,82 +291,6 @@
             </div>
           }
         </label>
-        <!-- departmentId Input -->
-        <label class="form-control w-full !mt-0">
-          <div class="label !py-0">
-            <span class="label-text font-bold capitalize">
-              Department:
-            </span>
-          </div>
-          <select
-            class="select select-bordered select-sm w-full"
-            formControlName="departmentId"
-            [class.invalid]="
-              appointmentForm.get('departmentId')?.invalid && (appointmentForm.get('departmentId')?.dirty || appointmentForm.get('departmentId')?.touched || isSubmitted)
-            "
-            required
-          >
-            <option value="" disabled>Select Department</option>
-            @switch (departmentQuery.status()) { @case ('pending') {
-              <option class="text-center text-5xl">Loading...</option>
-              } @case ('error') {
-              <option>Error: {{ departmentQuery.error()?.message }}</option>
-              } @default { @for (department of departmentQuery.data(); track department.id) {
-              <option
-              [value]="department?.id"
-            >
-              {{ department?.departmentName }}
-            </option>
-            } @empty {
-              <li>No Department found</li>
-              } } }
-          </select>
-          @if(appointmentForm.get('departmentId')?.hasError('required') && (appointmentForm.get('departmentId')?.dirty || appointmentForm.get('departmentId')?.touched || isSubmitted)){
-            <div class="label !py-0">
-              <span class="label-text-alt text-rose-600 capitalize"
-                >Department is required</span
-              >
-            </div>
-          }
-        </label>
-        <!-- drCode Input -->
-        <label class="form-control w-full !mt-0">
-          <div class="label !py-0">
-            <span class="label-text font-bold capitalize">
-              Doctor:
-            </span>
-          </div>
-          <select
-            class="select select-bordered select-sm w-full"
-            formControlName="drCode"
-            [class.invalid]="
-              appointmentForm.get('drCode')?.invalid && (appointmentForm.get('drCode')?.dirty || appointmentForm.get('drCode')?.touched || isSubmitted)
-            "
-            required
-          >
-            <option value="" disabled>Select Doctor</option>
-            @switch (doctorQuery.status()) { @case ('pending') {
-              <option class="text-center text-5xl">Loading...</option>
-              } @case ('error') {
-              <option>Error: {{ doctorQuery.error()?.message }}</option>
-              } @default { @for (doctor of doctorQuery.data(); track doctor.id) {
-              <option
-              [value]="doctor?.id"
-            >
-              {{ doctor?.drName }}
-            </option>
-            } @empty {
-              <li>No Doctor found</li>
-              } } }
-          </select>
-          @if(appointmentForm.get('drCode')?.hasError('required') && (appointmentForm.get('drCode')?.dirty || appointmentForm.get('drCode')?.touched || isSubmitted)){
-            <div class="label !py-0">
-              <span class="label-text-alt text-rose-600 capitalize"
-                >Doctor is required</span
-              >
-            </div>
-          }
-        </label>
         <!-- paymentStatus Input -->
         <label class="form-control w-full !mt-0">
           <div class="label !py-0">
@@ -300,7 +323,6 @@
             <option value=true>Yes</option>
           </select>
         </label>
-        }
       </div>
 
       <div class="!mt-2">
@@ -313,4 +335,3 @@
       </div>
     </form>
   </div>
-</div>

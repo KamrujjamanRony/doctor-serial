@@ -55,10 +55,10 @@ export class DoctorsService {
   getDoctorById(id: any): any{
     const doctors = this.queryClient.getQueryData(['doctors']) as any[];
     const selected = doctors?.find((d) => d.id == id);
-    return selected?.drName;
+    return selected;
   }
 
-  async filterDoctorsByDepartment(departmentId: string): Promise<any[]> {
+  async filterDoctorsByDepartment(departmentId: any): Promise<any[]> {
     try {
       // Wait for the query to finish and get the data
       await this.doctorsQuery.refetch();

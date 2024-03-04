@@ -307,15 +307,30 @@
       "pName": "yyy",
       "age": "33",
       "sex": "Male",
-      "type": "false",
+      "type": "true",
       "date": "2024-03-04",
       "sL": 5,
       "departmentId": "1b7fa859-3e3c-4b9c-8bea-57d17de4cb41",
       "drCode": "9ff0be61-4d2f-45c7-9a7c-8b21e7e0173d",
       "fee": 190,
       "paymentStatus": false,
-      "confirmed": false,
+      "confirmed": "false",
       "id": "caeaef1a-18b0-4737-9115-4c2959c3384c"
+    },
+    {
+      "id": "a4b82ce3-9e5b-466f-930f-9a71c316daf5",
+      "companyID": 1,
+      "pName": "aaaa",
+      "age": "22",
+      "sex": "Male",
+      "type": "false",
+      "date": "2024-03-08",
+      "sL": 5,
+      "departmentId": "1b7fa859-3e3c-4b9c-8bea-57d17de4cb41",
+      "drCode": "2bfdbd9b-76d6-4f7b-96a7-f8e3a54f1df1",
+      "fee": 150,
+      "paymentStatus": false,
+      "confirmed": false
     }
   ]
 }

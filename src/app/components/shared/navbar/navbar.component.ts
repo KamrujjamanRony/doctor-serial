@@ -14,6 +14,10 @@ export class NavbarComponent {
     {
       label: 'Home',
       link: '/'
+    },
+    {
+      label: 'Appointment Form',
+      link: 'appointment-form'
     }
   ];
   isMenuOpen = false;

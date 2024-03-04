@@ -21,7 +21,7 @@ export class ActiveLinkComponent {
   constructor() {}
 
   get isActive(): boolean {
-    if (this.router.url.includes(this.to)) {
+    if (this.router.url.includes(this.to) ) {
       return true;
     } else {
       return false;

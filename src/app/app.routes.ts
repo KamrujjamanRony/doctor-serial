@@ -7,6 +7,7 @@ import { DepartmentsComponent } from './pages/departments/departments.component'
 import { AllDepartmentComponent } from './pages/all-department/all-department.component';
 import { AllDoctorsComponent } from './pages/all-doctors/all-doctors.component';
 import { AllAppointmentComponent } from './pages/all-appointment/all-appointment.component';
+import { AppointmentFormComponent } from './pages/appointment-form/appointment-form.component';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,10 @@ export const routes: Routes = [
       {
         path: '',
         component: DepartmentsComponent
+      },
+      {
+        path: 'appointment-form',
+        component: AppointmentFormComponent
       },
       {
         path: 'serial/:department',

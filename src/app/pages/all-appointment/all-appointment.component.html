@@ -41,7 +41,7 @@
             <td class="px-4 py-3 text-xs">{{ transform(appointment?.date) }}</td>
             <td class="px-4 py-3 text-xs">{{ departmentService.getDepartmentById(appointment?.departmentId) }}</td>
             <td class="px-4 py-3 text-xs">{{ appointment?.sL }}</td>
-            <td class="px-4 py-3 text-xs">{{ this.doctorsService.getDoctorById(appointment?.drCode) }}</td>
+            <td class="px-4 py-3 text-xs">{{ this.doctorsService.getDoctorById(appointment?.drCode).drName }}</td>
             <td class="px-4 py-3 text-xs">{{ appointment?.pName }}</td>
             <td class="px-4 py-3 text-xs">{{ appointment?.age }}</td>
             <td class="px-4 py-3 text-xs">{{ appointment?.sex }}</td>
