@@ -9,13 +9,14 @@ import { DepartmentService } from '../../features/services/department.service';
 import { DoctorsService } from '../../features/services/doctors.service';
 import { CommonModule } from '@angular/common';
 import { ReactIconComponent } from '../../components/shared/react-icon/react-icon.component';
+import { ConfirmModalComponent } from "../../components/shared/confirm-modal/confirm-modal.component";
 
 @Component({
-  selector: 'app-appointment-form',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ReactIconComponent],
-  templateUrl: './appointment-form.component.html',
-  styleUrl: './appointment-form.component.css'
+    selector: 'app-appointment-form',
+    standalone: true,
+    templateUrl: './appointment-form.component.html',
+    styleUrl: './appointment-form.component.css',
+    imports: [CommonModule, ReactiveFormsModule, ReactIconComponent, ConfirmModalComponent]
 })
 export class AppointmentFormComponent {
   fb = inject(FormBuilder);
@@ -27,6 +28,12 @@ export class AppointmentFormComponent {
   format = format;
   isSubmitted = false;
   selected!: any;
+  
+  confirmModal: boolean = false;
+
+  closeModal() {
+    this.confirmModal = false;
+  }
 
   departmentQuery = injectQuery(() => ({
     queryKey: ['departments'],
@@ -88,7 +95,7 @@ export class AppointmentFormComponent {
         const formData = { ...this.appointmentForm.value, id: crypto.randomUUID() }
         this.appointmentMutation.mutate(formData);
         // toast
-        this.toastService.showToast('Appointment is successfully added!');
+        this.confirmModal = true;
         this.isSubmitted = true;
     }
   }

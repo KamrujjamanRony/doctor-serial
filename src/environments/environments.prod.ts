@@ -1,9 +1,8 @@
 export const environment = {
     production: true,
-    authKey: '06266',
     hospitalCode: 1,
     imgbbApi: '74aeaad1e9bebc2fbd07614debc9c4d5',
-    location: 'MEDI-TRUST ENGINEERS, 7th Floor, Block-B, Mirpur Tower, Darus Salam Road, Mirpur-1, Dhaka-1216',
+    rootApi: 'http://localhost:3000',
     appointmentApi: 'http://localhost:3000/appointment',
     DepartmentApi: 'http://localhost:3000/department',
     DoctorApi: 'http://localhost:3000/doctor',

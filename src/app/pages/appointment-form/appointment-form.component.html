@@ -9,45 +9,6 @@
         </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-x-5">
-        <!-- departmentId Input -->
-        <label class="form-control w-full !mt-0">
-          <div class="label !py-0">
-            <span class="label-text font-bold capitalize">
-              Department:
-            </span>
-          </div>
-          <select
-            class="select select-bordered select-sm w-full"
-            formControlName="departmentId"
-            [class.invalid]="
-              appointmentForm.get('departmentId')?.invalid && (appointmentForm.get('departmentId')?.dirty || appointmentForm.get('departmentId')?.touched || isSubmitted)
-            "
-            (change)="onDepartmentChange()"
-            required
-          >
-            <option value="" disabled>Select Department</option>
-            @switch (departmentQuery.status()) { @case ('pending') {
-              <option class="text-center text-5xl">Loading...</option>
-              } @case ('error') {
-              <option>Error: {{ departmentQuery.error()?.message }}</option>
-              } @default { @for (department of departmentQuery.data(); track department.id) {
-              <option
-              [value]="department?.id"
-            >
-              {{ department?.departmentName }}
-            </option>
-            } @empty {
-              <li>No Department found</li>
-              } } }
-          </select>
-          @if(appointmentForm.get('departmentId')?.hasError('required') && (appointmentForm.get('departmentId')?.dirty || appointmentForm.get('departmentId')?.touched || isSubmitted)){
-            <div class="label !py-0">
-              <span class="label-text-alt text-rose-600 capitalize"
-                >Department is required</span
-              >
-            </div>
-          }
-        </label>
         <!-- drCode Input -->
         @if(doctorList){
           <label class="form-control w-full !mt-0">
@@ -124,6 +85,45 @@
             }
           </label>
         }
+        <!-- departmentId Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">
+              Department:
+            </span>
+          </div>
+          <select
+            class="select select-bordered select-sm w-full"
+            formControlName="departmentId"
+            [class.invalid]="
+              appointmentForm.get('departmentId')?.invalid && (appointmentForm.get('departmentId')?.dirty || appointmentForm.get('departmentId')?.touched || isSubmitted)
+            "
+            (change)="onDepartmentChange()"
+            required
+          >
+            <option value="" disabled>Select Department</option>
+            @switch (departmentQuery.status()) { @case ('pending') {
+              <option class="text-center text-5xl">Loading...</option>
+              } @case ('error') {
+              <option>Error: {{ departmentQuery.error()?.message }}</option>
+              } @default { @for (department of departmentQuery.data(); track department.id) {
+              <option
+              [value]="department?.id"
+            >
+              {{ department?.departmentName }}
+            </option>
+            } @empty {
+              <li>No Department found</li>
+              } } }
+          </select>
+          @if(appointmentForm.get('departmentId')?.hasError('required') && (appointmentForm.get('departmentId')?.dirty || appointmentForm.get('departmentId')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >Department is required</span
+              >
+            </div>
+          }
+        </label>
         <!-- type Input -->
         <label class="form-control w-full !mt-0">
           <div class="label !py-0">
@@ -334,4 +334,8 @@
         </button>
       </div>
     </form>
+
+    @if(confirmModal){
+      <confirm-modal title='Appointment is successfully added!' (closeModal)="closeModal()" />
+    }
   </div>

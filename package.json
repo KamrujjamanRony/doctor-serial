@@ -26,6 +26,7 @@
     "@tanstack/angular-query-devtools-experimental": "^5.24.1",
     "@tanstack/angular-query-experimental": "^5.24.1",
     "aos": "^2.3.4",
+    "axios": "^1.6.7",
     "date-fns": "^3.3.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",

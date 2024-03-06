@@ -10,13 +10,14 @@ import { AppointmentService } from '../../../features/services/appointment.servi
 import { ToastService } from '../../../features/services/toast.service';
 import { DepartmentService } from '../../../features/services/department.service';
 import { DoctorsService } from '../../../features/services/doctors.service';
+import { ConfirmModalComponent } from "../confirm-modal/confirm-modal.component";
 
 @Component({
-  selector: 'app-appointment-modal',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ReactIconComponent],
-  templateUrl: './appointment-modal.component.html',
-  styleUrl: './appointment-modal.component.css'
+    selector: 'app-appointment-modal',
+    standalone: true,
+    templateUrl: './appointment-modal.component.html',
+    styleUrl: './appointment-modal.component.css',
+    imports: [CommonModule, ReactiveFormsModule, ReactIconComponent, ConfirmModalComponent]
 })
 export class AppointmentModalComponent {
   fb = inject(FormBuilder);
@@ -36,6 +37,13 @@ export class AppointmentModalComponent {
   ImCross = ImCross;
   isSubmitted = false;
   selected!: any;
+  selectedDoctor: any;
+  doctorList: any;
+  confirmModal: boolean = false;
+
+  closeModal() {
+    this.confirmModal = false;
+  }
 
   departmentQuery = injectQuery(() => ({
     queryKey: ['departments'],
@@ -68,6 +76,15 @@ export class AppointmentModalComponent {
   ngOnInit(): void {
     this.selected = this.appointmentService.getAppointment(this.id);
     this.updateFormValues();
+  }
+
+  async onDepartmentChange(){
+    this.doctorList = await this.doctorsService.filterDoctorsByDepartment(this.appointmentForm.value.departmentId);
+  }
+
+  onDoctorChange(){
+    this.selectedDoctor = this.doctorsService.getDoctorById(this.appointmentForm.value.drCode);
+    this.updateForm();
   }
 
   appointmentForm = this.fb.group({
@@ -103,8 +120,17 @@ export class AppointmentModalComponent {
     }
   }
 
+  updateForm(): void {
+    if (this.selectedDoctor) {
+      this.appointmentForm.patchValue({
+        departmentId: this.selectedDoctor.departmentId,
+        fee: this.selectedDoctor.fee,
+      });
+    }
+  }
+
   onSubmit(): void {
-    const { pName, age, sex, date, type } = this.appointmentForm.value;
+    const { pName, age, sex, date } = this.appointmentForm.value;
     if (pName && age && sex && date) {
       if (!this.selected) {
         console.log('submitted form', this.appointmentForm.value);
@@ -112,14 +138,16 @@ export class AppointmentModalComponent {
         this.appointmentMutation.mutate(formData);
         this.closeAppointmentModal();
         // toast
-        this.toastService.showToast('Appointment is successfully added!');
+        this.confirmModal = true;
+        // this.toastService.showToast('Appointment is successfully added!');
         this.isSubmitted = true;
       } else {
         const formData = { ...this.appointmentForm.value, id: this.selected.id };
         this.UpdateAppointmentMutation.mutate(formData);
         this.closeAppointmentModal();
         // toast
-        this.toastService.showToast('Appointment is successfully updated!');
+        this.confirmModal = true;
+        // this.toastService.showToast('Appointment is successfully updated!');
         this.isSubmitted = true;
       }
     }
