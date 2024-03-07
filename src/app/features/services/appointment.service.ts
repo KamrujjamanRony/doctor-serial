@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { lastValueFrom, map } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environments';
 import { injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
+import axios from 'axios';
 
 @Injectable({
   providedIn: 'root'
@@ -10,44 +9,70 @@ import { injectQuery, injectQueryClient } from '@tanstack/angular-query-experime
 export class AppointmentService {
 
   queryClient = injectQueryClient();
-  http = inject(HttpClient);
+
+  apiClient = axios.create({
+    baseURL: environment.rootApi,
+    headers: {
+      'Content-Type' : 'application/json',
+      'Accept' : 'application/json'
+    }
+  })
 
   constructor() { } 
-
-  getAppointments(): Promise<any[]> {
-    return lastValueFrom(
-      this.http.get<any[]>(environment.appointmentApi).pipe(
-        map(appointments => appointments.filter(data => data.companyID == environment.hospitalCode))
-      ),
-    )
-  }
 
   query = injectQuery(() => ({
     queryKey: ['appointments'],
     queryFn: () => this.getAppointments(),
   }));
 
-  addAppointment(model: any | FormData): Promise<any> {
-    return lastValueFrom(
-      this.http.post<void>(environment.appointmentApi, model),
-    )
-  }
-
   getAppointment(id: any): any{
     const Appointments = this.queryClient.getQueryData(['appointments']) as any[];
     return Appointments?.find((d) => d.id == id);
   }
 
-  updateAppointment(id: any, updateData: any): Promise<any> {
-    return lastValueFrom(
-      this.http.put<any>(`${environment.appointmentApi}/${id}`, updateData),
-    )
+  async getAppointments(): Promise<any[]> {
+    try {
+      const response = await this.apiClient.get<any[]>('/appointment');
+      const filteredAppointments = response.data.filter(data => data.companyID == environment.hospitalCode);
+      return filteredAppointments;
+    } catch (error) {
+      console.error('Error fetching Appointments:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
+    }
   }
 
-  deleteAppointment(id: any): Promise<any> {
-    return lastValueFrom(
-      this.http.delete<void>(`${environment.appointmentApi}/${id}`),
-    )
+  async addAppointment(model: any | FormData): Promise<any>{
+    try {
+      const response = await this.apiClient.post('/appointment', model);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching Appointments:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
+    }
+  }
+
+  async updateAppointment(id: any, updateData: any): Promise<any>{
+    try {
+      const response = await this.apiClient.patch(`/appointment/${id}`, updateData);
+      return response;
+    } catch (error) {
+      console.error('Error fetching appointment:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
+    }
+  };
+
+  async deleteAppointment(id: any): Promise<any>{
+    try {
+      const response = await this.apiClient.delete(`/appointment/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching appointment:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
+    }
   }
 
   getAppointmentById(id: any): any{
@@ -55,4 +80,31 @@ export class AppointmentService {
     const selected = Appointments?.find((d) => d.id == id);
     return selected.AppointmentName;
   }
+  
+
+  // getAppointments(): Promise<any[]> {
+  //   return lastValueFrom(
+  //     this.http.get<any[]>(environment.appointmentApi).pipe(
+  //       map(appointments => appointments.filter(data => data.companyID == environment.hospitalCode))
+  //     ),
+  //   )
+  // } 
+
+  // addAppointment(model: any | FormData): Promise<any> {
+  //   return lastValueFrom(
+  //     this.http.post<void>(environment.appointmentApi, model),
+  //   )
+  // }
+
+  // updateAppointment(id: any, updateData: any): Promise<any> {
+  //   return lastValueFrom(
+  //     this.http.put<any>(`${environment.appointmentApi}/${id}`, updateData),
+  //   )
+  // }
+
+  // deleteAppointment(id: any): Promise<any> {
+  //   return lastValueFrom(
+  //     this.http.delete<void>(`${environment.appointmentApi}/${id}`),
+  //   )
+  // }
 }

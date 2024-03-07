@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { lastValueFrom, map } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environments';
 import { injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
 import axios from 'axios';
@@ -11,7 +9,6 @@ import axios from 'axios';
 export class DepartmentService {
 
   queryClient = injectQueryClient();
-  http = inject(HttpClient);
 
   apiClient = axios.create({
     baseURL: environment.rootApi,
@@ -23,54 +20,65 @@ export class DepartmentService {
 
   constructor() { } 
 
-  async getDepartments(){
-    try {
-      const response = await this.apiClient.get('/department');
-      return response;
-    } catch (error) {
-      console.log(error);
-      return {};
-    }
-  } 
-
   query = injectQuery(() => ({
     queryKey: ['departments'],
     queryFn: () => this.getDepartments(),
   }));
 
-  async addDepartment(model: any | FormData){
+  async getDepartments(): Promise<any[]> {
+    try {
+      const response = await this.apiClient.get<any[]>('/department');
+      const filteredDepartments = response.data.filter(data => data.companyID == environment.hospitalCode);
+      return filteredDepartments;
+    } catch (error) {
+      console.error('Error fetching departments:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
+    }
+  }
+
+  async addDepartment(model: any | FormData): Promise<any>{
     try {
       const response = await this.apiClient.post('/department', model);
-      return response;
+      return response.data;
     } catch (error) {
-      console.log(error);
-      return {};
+      console.error('Error fetching departments:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
     }
   } 
-
+  
   getDepartment(id: any): any{
     const departments = this.queryClient.getQueryData(['departments']) as any[];
     return departments?.find((d) => d.id == id);
   }
 
-  async updateDepartment(id: any, updateData: any){
+  async updateDepartment(id: any, updateData: any): Promise<any>{
     try {
-      const response = await this.apiClient.post(`/department/${id}`, updateData);
+      const response = await this.apiClient.patch(`/department/${id}`, updateData);
       return response;
     } catch (error) {
-      console.log(error);
-      return {};
+      console.error('Error fetching departments:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
     }
   };
 
-  async deleteDepartment(id: any){
+  async deleteDepartment(id: any): Promise<any>{
     try {
       const response = await this.apiClient.delete(`/department/${id}`);
       return response;
     } catch (error) {
-      console.log(error);
-      return {};
+      console.error('Error fetching departments:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
     }
+  }
+
+  getDepartmentById(id: any): any{
+    const departments = this.queryClient.getQueryData(['departments']) as any[];
+    const selected = departments?.find((d) => d.id == id);
+    return selected?.departmentName;
   }
 
   // getDepartments(): Promise<any[]> {
@@ -98,10 +106,4 @@ export class DepartmentService {
   //     this.http.delete<void>(`${environment.DepartmentApi}/${id}`),
   //   )
   // }
-
-  getDepartmentById(id: any): any{
-    const departments = this.queryClient.getQueryData(['departments']) as any[];
-    const selected = departments?.find((d) => d.id == id);
-    return selected?.departmentName;
-  }
 }

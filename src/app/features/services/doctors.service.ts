@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { lastValueFrom, map } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environments';
 import { injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
+import axios from 'axios';
 
 @Injectable({
   providedIn: 'root'
@@ -10,46 +9,72 @@ import { injectQuery, injectQueryClient } from '@tanstack/angular-query-experime
 export class DoctorsService {
 
   queryClient = injectQueryClient();
-  http = inject(HttpClient);
 
-  
-
-  constructor() { } 
-
-  getDoctors(): Promise<any[]> {
-    return lastValueFrom(
-      this.http.get<any[]>(environment.DoctorApi).pipe(
-        map(departments => departments.filter(data => data.companyID == environment.hospitalCode))
-      ),
-    )
-  }
+  apiClient = axios.create({
+    baseURL: environment.rootApi,
+    headers: {
+      'Content-Type' : 'application/json',
+      'Accept' : 'application/json'
+    }
+  })
 
   doctorsQuery = injectQuery(() => ({
     queryKey: ['doctors'],
     queryFn: () => this.getDoctors(),
   }));
 
-  addDoctor(model: any | FormData): Promise<any> {
-    return lastValueFrom(
-      this.http.post<void>(environment.DoctorApi, model),
-    )
+  
+
+  constructor() { } 
+
+  async getDoctors(): Promise<any[]> {
+    try {
+      const response = await this.apiClient.get<any[]>('/doctor');
+      const filteredDoctors = response.data.filter(data => data.companyID == environment.hospitalCode);
+      return filteredDoctors;
+    } catch (error) {
+      console.error('Error fetching doctors:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
+    }
+  }
+
+  async addDoctor(model: any | FormData): Promise<any>{
+    try {
+      const response = await this.apiClient.post('/doctor', model);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching doctors:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
+    }
+  }
+
+  async updateDoctor(id: any, updateData: any): Promise<any>{
+    try {
+      const response = await this.apiClient.patch(`/doctor/${id}`, updateData);
+      return response;
+    } catch (error) {
+      console.error('Error fetching doctors:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
+    }
+  };
+
+  async deleteDoctor(id: any): Promise<any>{
+    try {
+      const response = await this.apiClient.delete(`/doctor/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching doctors:', error);
+      // Optionally rethrow the error or return a default value
+      throw error;
+    }
   }
 
   getDoctor(id: any): any{
     const doctors = this.queryClient.getQueryData(['doctors']) as any[];
     return doctors?.find((d) => d.id == id);
-  }
-
-  updateDoctor(id: any, updateData: any): Promise<any> {
-    return lastValueFrom(
-      this.http.put<any>(`${environment.DoctorApi}/${id}`, updateData),
-    )
-  }
-
-  deleteDoctor(id: any): Promise<any> {
-    return lastValueFrom(
-      this.http.delete<void>(`${environment.DoctorApi}/${id}`),
-    )
   }
 
   getDoctorById(id: any): any{
@@ -78,9 +103,30 @@ export class DoctorsService {
   //   return doctors?.filter((d) => d.departmentId == departmentId);
   // }
 
+  // getDoctors(): Promise<any[]> {
+  //   return lastValueFrom(
+  //     this.http.get<any[]>(environment.DoctorApi).pipe(
+  //       map(departments => departments.filter(data => data.companyID == environment.hospitalCode))
+  //     ),
+  //   )
+  // }
 
-  // getDoctor(id: any): Observable<any>{
-  //   return this.http.get<any>(`${environment.DoctorApi}/${id}`)
+  // addDoctor(model: any | FormData): Promise<any> {
+  //   return lastValueFrom(
+  //     this.http.post<void>(environment.DoctorApi, model),
+  //   )
+  // }
+
+  // updateDoctor(id: any, updateData: any): Promise<any> {
+  //   return lastValueFrom(
+  //     this.http.put<any>(`${environment.DoctorApi}/${id}`, updateData),
+  //   )
+  // }
+
+  // deleteDoctor(id: any): Promise<any> {
+  //   return lastValueFrom(
+  //     this.http.delete<void>(`${environment.DoctorApi}/${id}`),
+  //   )
   // }
   
 }

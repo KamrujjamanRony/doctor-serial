@@ -3,7 +3,7 @@
     {
       "id": "1b7fa859-3e3c-4b9c-8bea-57d17de4cb41",
       "companyID": 1,
-      "departmentName": "Hospital",
+      "departmentName": "Department 01",
       "description": "Provides comprehensive medical services including emergency care, surgeries, and specialized treatments.",
       "imgUrl": "https://i.ibb.co/0Xfjwgy/Screenshot-2023-05-22-162204.png"
     },
@@ -13,6 +13,13 @@
       "departmentName": "updated",
       "description": "sdfdsfd sdfasd asasdasw dsfasedf",
       "imgUrl": "https://i.ibb.co/Dpw88pQ/Screenshot-2023-08-22-164237.png"
+    },
+    {
+      "id": "42446564-2a14-425c-a740-9cf550f051d0",
+      "companyID": 1,
+      "departmentName": "department 03",
+      "description": "3322sfasdawsd asdasd asdadsd",
+      "imgUrl": "https://i.ibb.co/9Yc28gC/Screenshot-2023-10-07-114449.png"
     }
   ],
   "doctor": [
@@ -23,7 +30,7 @@
       "degree": "MD",
       "designation": "Cardiologist",
       "specialty": "Cardiology",
-      "departmentId": "1b7fa859-3e3c-4b9c-8bea-57d17de4cb41",
+      "departmentId": "42446564-2a14-425c-a740-9cf550f051d0",
       "phone": "123-456-7890",
       "fee": 150,
       "visitTime": "9:00 AM - 12:00 PM",
