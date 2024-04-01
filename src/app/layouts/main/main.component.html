@@ -1,5 +1,86 @@
-<div class="bg-primary">
-    <app-navbar></app-navbar>
-</div>
-<router-outlet></router-outlet>
-<!-- <app-footer></app-footer> -->
+@if (user) {
+  <main>
+    <div class="bg-primary">
+        <app-navbar></app-navbar>
+    </div>
+    <router-outlet></router-outlet>
+</main>
+} @else {
+  <div class="hero min-h-screen bg-base-200">
+    <div class="hero-content flex-col lg:flex-row-reverse">
+      <div class="text-center lg:text-left w-[50vw]">
+        <h1 class="text-5xl font-bold">Login now!</h1>
+      </div>
+      <div class="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <form class="card-body" 
+        [formGroup]="userForm"
+        (submit)="onSubmit()">
+            <!-- username Input -->
+        <label class="form-control w-full !mt-0">
+            <label class="label">
+                <span class="label-text">Username:</span>
+              </label>
+            <input
+              type="text"
+              formControlName="username"
+              [class.invalid]="
+                userForm.get('username')?.invalid &&
+                (userForm.get('username')?.dirty ||
+                  userForm.get('username')?.touched ||
+                  isSubmitted)
+              "
+              placeholder="Type here"
+              class="input input-bordered w-full input-md outline-none"
+              required
+            />
+            @if(userForm.get('username')?.hasError('required') &&
+            (userForm.get('username')?.dirty ||
+            userForm.get('username')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600"
+                >Username is required</span
+              >
+            </div>
+            }
+          </label>
+            <!-- password Input -->
+        <label class="form-control w-full !mt-0">
+            <label class="label">
+                <span class="label-text">Password:</span>
+              </label>
+            <input
+              type="password"
+              formControlName="password"
+              [class.invalid]="
+                userForm.get('password')?.invalid &&
+                (userForm.get('password')?.dirty ||
+                  userForm.get('password')?.touched ||
+                  isSubmitted)
+              "
+              autocomplete="false"
+              placeholder="Type here"
+              class="input input-bordered w-full input-md outline-none"
+              required
+            />
+            @if(userForm.get('password')?.hasError('required') &&
+            (userForm.get('password')?.dirty ||
+            userForm.get('password')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600"
+                >Password is required</span
+              >
+            </div>
+            }
+          </label>
+          <div class="form-control mt-6">
+            <button class="btn btn-primary">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}
+
+
+
+

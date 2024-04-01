@@ -1,0 +1,80 @@
+<app-cover
+  title="All User List"
+  sub1="Dashboard"
+  sub2="Users"
+></app-cover>
+
+<div class="container mx-auto flex justify-end">
+  <button (click)="openAddUserModal()" class="btn btn-primary text-white">
+    Add User
+  </button>
+</div>
+
+<div class="mt-4 mx-4">
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+          >
+            <th class="px-4 py-3">Username</th>
+            <th class="px-4 py-3">Password</th>
+            <th class="px-4 py-3">Role</th>
+            <th class="px-4 py-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+          @switch (query.status()) { @case ('pending') {
+          <p class="text-center text-5xl">Loading...</p>
+          } @case ('error') {
+          <span>Error: {{ query.error()?.message }}</span>
+          } @default { @for (user of query.data(); track user.id) {
+          <tr
+            class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
+          >
+            <td class="px-4 py-3 text-xs">{{ user.username }}</td>
+            <td class="px-4 py-3 text-xs">{{ user.password }}</td>
+            <td class="px-4 py-3 text-xs">{{ user.role }}</td>
+            <td class="px-4 py-3 text-sm">
+              <button
+                (click)="openEditUserModal(user.id)"
+                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded dark:bg-green-700 dark:text-green-100 mr-2 inline-block my-2"
+              >
+                Edit
+              </button>
+              <button
+                (click)="onDelete(user.id)"
+                class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded dark:bg-red-700 dark:text-green-100 inline-block"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+          } @empty {
+          <li>No user found</li>
+          } } }
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+    ></div>
+  </div>
+</div>
+<!-- add modal start -->
+<!-- @if(addDepartmentModal) {
+<app-add-department-modal
+  (closeModal)="closeAddDepartmentModal()"
+></app-add-department-modal>
+} -->
+<!-- add modal end -->
+<!-- edit modal start -->
+<!-- @if(editDepartmentModal) {
+  <app-edit-department-modal
+    [id]="selectedId"
+    (closeModal)="closeEditDepartmentModal()"
+  ></app-edit-department-modal>
+  } -->
+  <!-- edit modal end -->
+

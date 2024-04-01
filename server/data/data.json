@@ -399,5 +399,29 @@
       "paymentStatus": false,
       "confirmed": false
     }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "companyID": 1,
+      "username": "super_soft",
+      "password": "123",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "companyID": 1,
+      "username": "neaz_vai",
+      "password": "456",
+      "role": "user"
+    },
+    {
+      "id": 3,
+      "companyID": 1,
+      "username": "kamrujjaman",
+      "password": "789",
+      "role": "user"
+    }
   ]
+  
 }

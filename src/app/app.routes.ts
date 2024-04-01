@@ -8,6 +8,7 @@ import { AllDepartmentComponent } from './pages/all-department/all-department.co
 import { AllDoctorsComponent } from './pages/all-doctors/all-doctors.component';
 import { AllAppointmentComponent } from './pages/all-appointment/all-appointment.component';
 import { AppointmentFormComponent } from './pages/appointment-form/appointment-form.component';
+import { AllUsersComponent } from './pages/all-users/all-users.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,7 @@ export const routes: Routes = [
       { path: 'doctors', component: AllDoctorsComponent },
       { path: 'department-list', component: AllDepartmentComponent },
       { path: 'all-appointment', component: AllAppointmentComponent },
+      { path: 'all-user', component: AllUsersComponent },
     ],
   },
 ];
