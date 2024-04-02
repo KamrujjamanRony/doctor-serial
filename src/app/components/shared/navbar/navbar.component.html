@@ -45,7 +45,7 @@
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1 text-lg">
-      @for (menuItem of menuItems; track $index) {
+      @for (menuItem of menuItems.slice(0,2); track $index) {
       <li>
         <app-active-link
           [to]="menuItem.link"
@@ -53,10 +53,32 @@
         ></app-active-link>
       </li>
       }
+      @if (user && user.role === "user") {
+        @for (menuItem of menuItems.slice(2,3); track $index) {
+          <li>
+            <app-active-link
+              [to]="menuItem.link"
+              [children]="menuItem.label"
+            ></app-active-link>
+          </li>
+          }
+      }
+      @if (user && user.role === "admin") {
+        @for (menuItem of menuItems.slice(3,4); track $index) {
+          <li>
+            <app-active-link
+              [to]="menuItem.link"
+              [children]="menuItem.label"
+            ></app-active-link>
+          </li>
+          }
+      }
     </ul>
   </div>
   <div class="navbar-end">
+    @if (user) {<span class="mr-2">{{user.username}}</span>}
     <button
+    (click)="logOut()"
       class="rounded text-sm bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
     >
       Log Out
