@@ -3,13 +3,15 @@ import { UsersService } from '../../features/services/users.service';
 import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
 import { Subscription } from 'rxjs';
 import { CoverComponent } from "../../components/shared/cover/cover.component";
+import { AddUserModalComponent } from "../../components/shared/modal/add-user-modal/add-user-modal.component";
+import { EditUserModalComponent } from "../../components/shared/modal/edit-user-modal/edit-user-modal.component";
 
 @Component({
     selector: 'app-all-users',
     standalone: true,
     templateUrl: './all-users.component.html',
     styleUrl: './all-users.component.css',
-    imports: [CoverComponent]
+    imports: [CoverComponent, AddUserModalComponent, EditUserModalComponent]
 })
 export class AllUsersComponent {
   usersService = inject(UsersService)

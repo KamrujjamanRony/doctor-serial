@@ -5,9 +5,8 @@ import { RouterLink } from '@angular/router';
 import { CoverComponent } from "../../components/shared/cover/cover.component";
 import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
 import { Subscription } from 'rxjs';
-import { AddDoctorModalComponent } from "../../components/shared/add-doctor-modal/add-doctor-modal.component";
-import { EditDoctorModalComponent } from "../../components/shared/edit-doctor-modal/edit-doctor-modal.component";
-
+import { AddDoctorModalComponent } from '../../components/shared/modal/add-doctor-modal/add-doctor-modal.component';
+import { EditDoctorModalComponent } from '../../components/shared/modal/edit-doctor-modal/edit-doctor-modal.component';
 @Component({
     selector: 'app-all-doctors',
     standalone: true,

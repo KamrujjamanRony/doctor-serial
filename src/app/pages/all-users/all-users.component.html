@@ -63,18 +63,18 @@
   </div>
 </div>
 <!-- add modal start -->
-<!-- @if(addDepartmentModal) {
-<app-add-department-modal
-  (closeModal)="closeAddDepartmentModal()"
-></app-add-department-modal>
-} -->
+@if(addUserModal) {
+<app-add-user-modal
+  (closeModal)="closeAddUserModal()"
+></app-add-user-modal>
+}
 <!-- add modal end -->
 <!-- edit modal start -->
-<!-- @if(editDepartmentModal) {
-  <app-edit-department-modal
+@if(editUserModal) {
+  <app-edit-user-modal
     [id]="selectedId"
-    (closeModal)="closeEditDepartmentModal()"
-  ></app-edit-department-modal>
-  } -->
+    (closeModal)="closeEditUserModal()"
+  ></app-edit-user-modal>
+  }
   <!-- edit modal end -->
 

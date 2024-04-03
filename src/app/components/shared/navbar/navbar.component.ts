@@ -28,16 +28,8 @@ export class NavbarComponent {
       link: 'my-appointments'
     },
     {
-      label: 'Appointments',
-      link: 'appointments'
-    },
-    {
-      label: 'Users',
-      link: 'users'
-    },
-    {
-      label: 'Users',
-      link: 'users'
+      label: 'Admin',
+      link: 'admin'
     },
   ];
   isMenuOpen = false;

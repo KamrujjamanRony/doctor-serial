@@ -1,0 +1,112 @@
+<div
+  class="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm flex justify-center items-center"
+>
+  <div class="rounded-xl max-w-[840px] w-full max-h-[90vh] overflow-y-auto">
+    <form
+      [formGroup]="addUserForm"
+      (submit)="onSubmit()"
+      class="bg-[#e3c9f8] p-6 space-y-6 rounded-lg shadow-lg"
+    >
+      <div class="flex justify-between">
+        <h2 class="text-2xl font-bold text-center w-full">Edit User</h2>
+
+        <button
+          class="rounded bg-red-600 p-2 w-8 h-8 text-center text-white transition-all hover:opacity-80"
+          (click)="closeThisModal()"
+        >
+          <app-react-icon [icon]="ImCross"></app-react-icon>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 w-full gap-x-5">
+        <!-- username Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Username</span>
+          </div>
+          <input
+            type="text"
+            formControlName="username"
+            [class.invalid]="
+              addUserForm.get('username')?.invalid &&
+              (addUserForm.get('username')?.dirty ||
+                addUserForm.get('username')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addUserForm.get('username')?.hasError('required') &&
+          (addUserForm.get('username')?.dirty ||
+          addUserForm.get('username')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Username is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- password Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">Password</span>
+          </div>
+          <input
+            type="text"
+            formControlName="password"
+            [class.invalid]="
+              addUserForm.get('password')?.invalid &&
+              (addUserForm.get('password')?.dirty ||
+                addUserForm.get('password')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
+          />
+          @if(addUserForm.get('password')?.hasError('required') &&
+          (addUserForm.get('password')?.dirty ||
+          addUserForm.get('password')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Password is required</span
+            >
+          </div>
+          }
+        </label>
+        <!-- Role Input -->
+        <label class="form-control w-full !mt-0">
+          <div class="label !py-0">
+            <span class="label-text font-bold capitalize">
+              Role:
+            </span>
+          </div>
+          <select
+            class="select select-bordered select-sm w-full"
+            formControlName="role"
+            [class.invalid]="
+              addUserForm.get('role')?.invalid &&
+              (addUserForm.get('role')?.dirty ||
+                addUserForm.get('role')?.touched ||
+                isSubmitted)
+            "
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </label>
+
+      </div>
+
+      <div class="!mt-2">
+        <button
+          type="submit"
+          class="rounded bg-primary py-1 text-white transition-all hover:opacity-80 w-full"
+        >
+          Submit Here
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

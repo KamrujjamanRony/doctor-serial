@@ -2,12 +2,11 @@ import { Component, inject } from '@angular/core';
 import { DepartmentService } from '../../features/services/department.service';
 import { CoverComponent } from '../../components/shared/cover/cover.component';
 import { RouterLink } from '@angular/router';
-import { AppointmentModalComponent } from "../../components/shared/appointment-modal/appointment-modal.component";
-import { AddDepartmentModalComponent } from "../../components/shared/add-department-modal/add-department-modal.component";
 import { CommonModule } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
-import { EditDepartmentModalComponent } from "../../components/shared/edit-department-modal/edit-department-modal.component";
+import { AddDepartmentModalComponent } from '../../components/shared/modal/add-department-modal/add-department-modal.component';
+import { EditDepartmentModalComponent } from '../../components/shared/modal/edit-department-modal/edit-department-modal.component';
 
 @Component({
   selector: 'app-all-department',

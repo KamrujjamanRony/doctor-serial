@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ReactIconComponent } from '../react-icon/react-icon.component';
 import { ImCross } from "react-icons/im";
-import { environment } from '../../../../environments/environments';
-import { ImgbbService } from '../../../features/services/imgbb.service';
 import { Subscription } from 'rxjs';
-import { DepartmentService } from '../../../features/services/department.service';
 import { injectMutation, injectQueryClient } from '@tanstack/angular-query-experimental';
+import { ReactIconComponent } from '../../react-icon/react-icon.component';
+import { DepartmentService } from '../../../../features/services/department.service';
+import { ImgbbService } from '../../../../features/services/imgbb.service';
+import { environment } from '../../../../../environments/environments';
 
 @Component({
   selector: 'app-add-department-modal',

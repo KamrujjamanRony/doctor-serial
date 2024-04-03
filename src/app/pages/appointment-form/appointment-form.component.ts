@@ -9,7 +9,7 @@ import { DepartmentService } from '../../features/services/department.service';
 import { DoctorsService } from '../../features/services/doctors.service';
 import { CommonModule } from '@angular/common';
 import { ReactIconComponent } from '../../components/shared/react-icon/react-icon.component';
-import { ConfirmModalComponent } from "../../components/shared/confirm-modal/confirm-modal.component";
+import { ConfirmModalComponent } from '../../components/shared/modal/confirm-modal/confirm-modal.component';
 
 @Component({
     selector: 'app-appointment-form',

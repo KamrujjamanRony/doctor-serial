@@ -6,7 +6,7 @@ import { CoverComponent } from "../../components/shared/cover/cover.component";
 import { DatePipe } from '@angular/common';
 import { DepartmentService } from '../../features/services/department.service';
 import { DoctorsService } from '../../features/services/doctors.service';
-import { AppointmentModalComponent } from "../../components/shared/appointment-modal/appointment-modal.component";
+import { AppointmentModalComponent } from '../../components/shared/modal/appointment-modal/appointment-modal.component';
 
 @Component({
     selector: 'app-all-appointment',

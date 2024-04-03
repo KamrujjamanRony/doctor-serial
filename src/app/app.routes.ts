@@ -38,9 +38,9 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     children: [
-      { path: '', component: DoctorsListComponent },
-      { path: 'doctors', component: AllDoctorsComponent },
+      { path: '', component: AllDepartmentComponent },
       { path: 'department-list', component: AllDepartmentComponent },
+      { path: 'doctors', component: AllDoctorsComponent },
       { path: 'all-appointment', component: AllAppointmentComponent },
       { path: 'all-user', component: AllUsersComponent },
     ],

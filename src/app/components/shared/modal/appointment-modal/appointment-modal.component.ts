@@ -3,14 +3,14 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ImCross } from "react-icons/im";
 import { format, isBefore } from 'date-fns';
-import { ReactIconComponent } from '../react-icon/react-icon.component';
-import { environment } from '../../../../environments/environments';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
-import { AppointmentService } from '../../../features/services/appointment.service';
-import { ToastService } from '../../../features/services/toast.service';
-import { DepartmentService } from '../../../features/services/department.service';
-import { DoctorsService } from '../../../features/services/doctors.service';
-import { ConfirmModalComponent } from "../confirm-modal/confirm-modal.component";
+import { ReactIconComponent } from '../../react-icon/react-icon.component';
+import { ToastService } from '../../../../features/services/toast.service';
+import { AppointmentService } from '../../../../features/services/appointment.service';
+import { DepartmentService } from '../../../../features/services/department.service';
+import { DoctorsService } from '../../../../features/services/doctors.service';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { environment } from '../../../../../environments/environments';
 
 @Component({
     selector: 'app-appointment-modal',
