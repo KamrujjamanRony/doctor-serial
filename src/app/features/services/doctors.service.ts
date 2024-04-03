@@ -96,37 +96,5 @@ export class DoctorsService {
       return []; // Return an empty array in case of an error
     }
   }
-
-  // filterDoctorsByDepartment(departmentId: string): any[] {
-  //   const doctors = this.queryClient.getQueryData(['doctors']) as any[];
-  //   console.log(doctors)
-  //   return doctors?.filter((d) => d.departmentId == departmentId);
-  // }
-
-  // getDoctors(): Promise<any[]> {
-  //   return lastValueFrom(
-  //     this.http.get<any[]>(environment.DoctorApi).pipe(
-  //       map(departments => departments.filter(data => data.companyID == environment.hospitalCode))
-  //     ),
-  //   )
-  // }
-
-  // addDoctor(model: any | FormData): Promise<any> {
-  //   return lastValueFrom(
-  //     this.http.post<void>(environment.DoctorApi, model),
-  //   )
-  // }
-
-  // updateDoctor(id: any, updateData: any): Promise<any> {
-  //   return lastValueFrom(
-  //     this.http.put<any>(`${environment.DoctorApi}/${id}`, updateData),
-  //   )
-  // }
-
-  // deleteDoctor(id: any): Promise<any> {
-  //   return lastValueFrom(
-  //     this.http.delete<void>(`${environment.DoctorApi}/${id}`),
-  //   )
-  // }
   
 }
