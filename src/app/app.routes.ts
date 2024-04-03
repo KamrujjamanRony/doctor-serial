@@ -9,6 +9,7 @@ import { AllDoctorsComponent } from './pages/all-doctors/all-doctors.component';
 import { AllAppointmentComponent } from './pages/all-appointment/all-appointment.component';
 import { AppointmentFormComponent } from './pages/appointment-form/appointment-form.component';
 import { AllUsersComponent } from './pages/all-users/all-users.component';
+import { MyAppointmentsComponent } from './pages/my-appointments/my-appointments.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,10 @@ export const routes: Routes = [
       {
         path: 'appointment-form',
         component: AppointmentFormComponent
+      },
+      {
+        path: 'my-appointments',
+        component: MyAppointmentsComponent
       },
       {
         path: 'serial/:department',
