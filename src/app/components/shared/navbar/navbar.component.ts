@@ -23,10 +23,10 @@ export class NavbarComponent {
       label: 'Appointment Form',
       link: 'appointment-form'
     },
-    {
-      label: 'My Appointments',
-      link: 'my-appointments'
-    },
+    // {
+    //   label: 'My Appointments',
+    //   link: 'my-appointments'
+    // },
     {
       label: 'Admin',
       link: 'admin'
