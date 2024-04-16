@@ -312,7 +312,7 @@
         <!-- Image Input -->
         <label class="form-control w-full !mt-0">
           <div class="label !py-0">
-            <span class="label-text font-bold capitalize">Department Icon</span>
+            <span class="label-text font-bold capitalize">Image</span>
           </div>
           <input
             type="file"
@@ -435,6 +435,62 @@
             </div>
             }
           </label>
+          <!-- newPatientLimit Input -->
+        <!-- <label class="form-control w-full !mt-0">
+            <div class="label !py-0">
+              <span class="label-text font-bold capitalize">New Patient Limit</span>
+            </div>
+            <input
+              type="text"
+              formControlName="newPatientLimit"
+              [class.invalid]="
+                addDoctorForm.get('newPatientLimit')?.invalid &&
+                (addDoctorForm.get('newPatientLimit')?.dirty ||
+                  addDoctorForm.get('newPatientLimit')?.touched ||
+                  isSubmitted)
+              "
+              placeholder="Type here"
+              class="input input-bordered w-full input-sm outline-none"
+              required
+            />
+            @if(addDoctorForm.get('newPatientLimit')?.hasError('required') &&
+            (addDoctorForm.get('newPatientLimit')?.dirty ||
+            addDoctorForm.get('newPatientLimit')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >New Patient Limit is required</span
+              >
+            </div>
+            }
+          </label> -->
+          <!-- oldPatientLimit Input -->
+        <!-- <label class="form-control w-full !mt-0">
+            <div class="label !py-0">
+              <span class="label-text font-bold capitalize">Old Patient Limit</span>
+            </div>
+            <input
+              type="text"
+              formControlName="oldPatientLimit"
+              [class.invalid]="
+                addDoctorForm.get('oldPatientLimit')?.invalid &&
+                (addDoctorForm.get('oldPatientLimit')?.dirty ||
+                  addDoctorForm.get('oldPatientLimit')?.touched ||
+                  isSubmitted)
+              "
+              placeholder="Type here"
+              class="input input-bordered w-full input-sm outline-none"
+              required
+            />
+            @if(addDoctorForm.get('oldPatientLimit')?.hasError('required') &&
+            (addDoctorForm.get('oldPatientLimit')?.dirty ||
+            addDoctorForm.get('oldPatientLimit')?.touched || isSubmitted)){
+            <div class="label !py-0">
+              <span class="label-text-alt text-rose-600 capitalize"
+                >Old Patient Limit is required</span
+              >
+            </div>
+            }
+          </label> -->
 
       </div>
 

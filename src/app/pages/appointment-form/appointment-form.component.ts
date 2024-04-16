@@ -89,10 +89,25 @@ export class AppointmentFormComponent {
   }
 
   onSubmit(): void {
-    const { pName, age, sex, date, type } = this.appointmentForm.value;
+    const { pName, age, sex, date, type, departmentId, sL, drCode, fee, paymentStatus, confirmed } = this.appointmentForm.value;
     if (pName && age && sex && date) {
         console.log('submitted form', this.appointmentForm.value);
-        const formData = { ...this.appointmentForm.value, id: crypto.randomUUID() }
+        // const formData = { ...this.appointmentForm.value, id: crypto.randomUUID() }
+        const formData = new FormData();
+
+        formData.append('CompanyID', environment.hospitalCode.toString());
+        formData.append('Date', date);
+        formData.append('DepartmentId', departmentId != null ? departmentId.toString() : '');
+        formData.append('SL', sL != null ? sL.toString() : '');
+        formData.append('Type', type != null ? type.toString() : '');
+        formData.append('DrCode', drCode != null ? drCode.toString() : '');
+        formData.append('PName', pName);
+        formData.append('Age', age);
+        formData.append('Sex', sex);
+        formData.append('Fee', fee != null ? fee.toString() : '');
+        formData.append('Username', "");
+        formData.append('PaymentStatus', paymentStatus != null ? paymentStatus.toString() : '');
+        formData.append('Confirmed', confirmed != null ? confirmed.toString() : '');
         this.appointmentMutation.mutate(formData);
         // toast
         this.confirmModal = true;
@@ -100,7 +115,7 @@ export class AppointmentFormComponent {
     }
   }
 
-  dates: Date[] = Array.from({ length: 8 }, (_, i) => {
+  dates: Date[] = Array.from({ length: 15 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() + i);
     return date;

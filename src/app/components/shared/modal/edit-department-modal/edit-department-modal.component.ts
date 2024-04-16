@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { ImCross } from 'react-icons/im';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,7 @@ import { environment } from '../../../../../environments/environments';
 @Component({
   selector: 'app-edit-department-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ReactIconComponent],
+  imports: [CommonModule, ReactiveFormsModule, ReactIconComponent, FormsModule],
   templateUrl: './edit-department-modal.component.html',
   styleUrl: './edit-department-modal.component.css'
 })
@@ -34,12 +34,12 @@ export class EditDepartmentModalComponent {
   ImCross = ImCross;
   isSubmitted = false;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.selected = this.departmentService.getDepartment(this.id)
     this.updateFormValues();
-   }
+  }
 
   // selectedDepartment = injectQuery(() => ({
   //   queryKey: ['departments', this.id],
@@ -95,8 +95,14 @@ export class EditDepartmentModalComponent {
   onSubmit(): void {
     const { departmentName, description } = this.addDepartmentForm.value;
     if (departmentName && description) {
-      const updateData = { "id": this.selected.id, ...this.addDepartmentForm.value, "imgUrl": this.imgUrl }
-      this.mutation.mutate(updateData);
+      const formData = new FormData();
+
+      formData.append('CompanyID', environment.hospitalCode.toString());
+      formData.append('DepartmentName', departmentName);
+      formData.append('Description', description);
+      formData.append('ImgUrl', this.imgUrl);
+      // const formData = { "id": this.selected.id, ...this.addDepartmentForm.value, "imgUrl": this.imgUrl }
+      this.mutation.mutate(formData);
       this.closeThisModal();
     }
     this.isSubmitted = true;

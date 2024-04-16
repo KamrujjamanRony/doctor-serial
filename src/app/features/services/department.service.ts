@@ -55,7 +55,7 @@ export class DepartmentService {
 
   async updateDepartment(id: any, updateData: any): Promise<any>{
     try {
-      const response = await this.apiClient.patch(`/EditDepartment/${id}`, updateData);
+      const response = await this.apiClient.put(`/EditDepartment/${id}`, updateData);
       return response;
     } catch (error) {
       console.error('Error fetching departments:', error);

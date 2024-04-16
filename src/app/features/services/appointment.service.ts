@@ -55,7 +55,7 @@ export class AppointmentService {
 
   async updateAppointment(id: any, updateData: any): Promise<any>{
     try {
-      const response = await this.apiClient.patch(`/EditAppointment/${id}`, updateData);
+      const response = await this.apiClient.put(`/EditAppointment/${id}`, updateData);
       return response;
     } catch (error) {
       console.error('Error fetching appointment:', error);

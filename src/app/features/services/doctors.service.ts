@@ -42,6 +42,7 @@ export class DoctorsService {
   async addDoctor(model: any | FormData): Promise<any>{
     try {
       const response = await this.apiClient.post('/', model);
+      console.log(response)
       return response.data;
     } catch (error) {
       console.error('Error fetching doctors:', error);
@@ -52,7 +53,7 @@ export class DoctorsService {
 
   async updateDoctor(id: any, updateData: any): Promise<any>{
     try {
-      const response = await this.apiClient.patch(`/EditDoctor/${id}`, updateData);
+      const response = await this.apiClient.put(`/EditDoctor/${id}`, updateData);
       return response;
     } catch (error) {
       console.error('Error fetching doctors:', error);

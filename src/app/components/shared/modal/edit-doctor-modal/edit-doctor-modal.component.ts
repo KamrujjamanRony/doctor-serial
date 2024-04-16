@@ -86,6 +86,8 @@ export class EditDoctorModalComponent {
     additional: ['', Validators.required],
     notice: ['', Validators.required],
     serialBlock: ['', Validators.required],
+    newPatientLimit: ['', Validators.required],
+    oldPatientLimit: ['', Validators.required],
   });
 
   updateFormValues(): void {
@@ -106,16 +108,38 @@ export class EditDoctorModalComponent {
         additional: this.selected.additional,
         notice: this.selected.notice,
         serialBlock: this.selected.serialBlock,
+        newPatientLimit: this.selected.newPatientLimit,
+        oldPatientLimit: this.selected.oldPatientLimit,
       });
       this.imageUrl = this.selected.imageUrl;
     }
   }
 
   onSubmit(): void {
-    const {drName, drSerial, degree, designation, specialty, departmentId, phone, fee, visitTime, room, description, additional, notice, serialBlock } = this.addDoctorForm.value;
-    if (drName && drSerial && degree && designation && specialty && departmentId && phone && fee && visitTime && room && description && additional && notice && serialBlock) {
+    const {drName, drSerial, degree, designation, specialty, departmentId, phone, fee, visitTime, room, description, additional, notice, serialBlock, newPatientLimit, oldPatientLimit } = this.addDoctorForm.value;
+    if (drName && departmentId) {
       // console.log('submitted form', this.addDoctorForm.value);
-      const formData = {...this.addDoctorForm.value, "imageUrl":this.imageUrl, id: this.selected.id}
+      // const formData = {...this.addDoctorForm.value, "imageUrl":this.imageUrl, id: this.selected.id}
+      const formData = new FormData();
+
+      formData.append('CompanyID', environment.hospitalCode.toString());
+      formData.append('DrSerial', drSerial || '');
+      formData.append('DrName', drName);
+      formData.append('Degree', degree || '');
+      formData.append('Designation', designation || '');
+      formData.append('Specialty', specialty || '');
+      formData.append('DepartmentId', departmentId);
+      formData.append('Phone', phone || '');
+      formData.append('VisitTime', visitTime || '');
+      formData.append('Room', room || '');
+      formData.append('Description', description || '');
+      formData.append('Additional', additional || '');
+      formData.append('Notice', notice || '');
+      formData.append('SerialBlock', serialBlock || '');
+      formData.append('NewPatientLimit', newPatientLimit || '');
+      formData.append('OldPatientLimit', oldPatientLimit || '');
+      formData.append('Fee', fee || '');
+      formData.append('ImageUrl', this.imageUrl);
       this.mutation.mutate(formData);
       this.closeThisModal();
     }

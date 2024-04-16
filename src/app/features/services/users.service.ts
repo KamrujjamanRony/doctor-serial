@@ -49,7 +49,7 @@ export class UsersService {
 
   async updateUser(id: any, updateData: any): Promise<any>{
     try {
-      const response = await this.apiClient.patch(`/users/${id}`, updateData);
+      const response = await this.apiClient.put(`/users/${id}`, updateData);
       return response;
     } catch (error) {
       console.error('Error fetching users:', error);

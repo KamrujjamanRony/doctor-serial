@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ImCross } from "react-icons/im";
 import { Subscription } from 'rxjs';
 import { injectMutation, injectQueryClient } from '@tanstack/angular-query-experimental';
@@ -12,7 +12,7 @@ import { environment } from '../../../../../environments/environments';
 @Component({
   selector: 'app-add-department-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ReactIconComponent],
+  imports: [CommonModule, ReactiveFormsModule, ReactIconComponent, FormsModule],
   templateUrl: './add-department-modal.component.html',
   styleUrl: './add-department-modal.component.css'
 })
@@ -56,17 +56,23 @@ export class AddDepartmentModalComponent {
   };
 
   addDepartmentForm = this.fb.group({
-    companyID: [environment.hospitalCode, Validators.required],
     departmentName: ['', Validators.required],
-    description: ['', Validators.required],
+    description: [''],
   });
 
   onSubmit(): void {
     console.log(this.addDepartmentForm.value)
     const {departmentName, description} = this.addDepartmentForm.value;
-    if (departmentName && description) {
+    if (departmentName) {
       console.log('submitted form', this.addDepartmentForm.value);
-      const formData = {...this.addDepartmentForm.value, "imgUrl":this.imgUrl, id: crypto.randomUUID()}
+      
+    const formData = new FormData();
+
+    formData.append('CompanyID', environment.hospitalCode.toString());
+    formData.append('DepartmentName', departmentName);
+    formData.append('Description',  description != null ? description.toString() : '');
+    formData.append('ImgUrl', this.imgUrl);
+      // const formData = {...this.addDepartmentForm.value, "imgUrl":this.imgUrl, id: crypto.randomUUID()}
       this.mutation.mutate(formData);
       this.closeThisModal();
     }

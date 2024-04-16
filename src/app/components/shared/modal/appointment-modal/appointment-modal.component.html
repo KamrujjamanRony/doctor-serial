@@ -237,6 +237,12 @@
               >Appointment Date:</span
             >
           </div>
+          <!-- <input type="date" formControlName="date"
+          class="input input-bordered w-full input-sm"
+          [class.invalid]="
+            appointmentForm.get('date')?.invalid && (appointmentForm.get('date')?.dirty || appointmentForm.get('date')?.touched || isSubmitted)
+          "
+          required> -->
           <select
             class="select select-bordered select-sm w-full"
             formControlName="date"
