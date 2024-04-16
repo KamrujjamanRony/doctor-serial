@@ -11,11 +11,11 @@ export class DepartmentService {
   queryClient = injectQueryClient();
 
   apiClient = axios.create({
-    baseURL: environment.rootApi,
-    headers: {
-      'Content-Type' : 'application/json',
-      'Accept' : 'application/json'
-    }
+    baseURL: environment.DepartmentApi,
+    // headers: {
+    //   'Content-Type' : 'application/json',
+    //   'Accept' : 'application/json'
+    // }
   })
 
   constructor() { } 
@@ -27,7 +27,7 @@ export class DepartmentService {
 
   async getDepartments(): Promise<any[]> {
     try {
-      const response = await this.apiClient.get<any[]>('/department');
+      const response = await this.apiClient.get<any[]>('/');
       const filteredDepartments = response.data.filter(data => data.companyID == environment.hospitalCode);
       return filteredDepartments;
     } catch (error) {
@@ -39,7 +39,7 @@ export class DepartmentService {
 
   async addDepartment(model: any | FormData): Promise<any>{
     try {
-      const response = await this.apiClient.post('/department', model);
+      const response = await this.apiClient.post('/', model);
       return response.data;
     } catch (error) {
       console.error('Error fetching departments:', error);
@@ -55,7 +55,7 @@ export class DepartmentService {
 
   async updateDepartment(id: any, updateData: any): Promise<any>{
     try {
-      const response = await this.apiClient.patch(`/department/${id}`, updateData);
+      const response = await this.apiClient.patch(`/EditDepartment/${id}`, updateData);
       return response;
     } catch (error) {
       console.error('Error fetching departments:', error);
@@ -66,7 +66,7 @@ export class DepartmentService {
 
   async deleteDepartment(id: any): Promise<any>{
     try {
-      const response = await this.apiClient.delete(`/department/${id}`);
+      const response = await this.apiClient.delete(`/DeleteDepartment?id=${id}`);
       return response;
     } catch (error) {
       console.error('Error fetching departments:', error);

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
 import { ActiveLinkComponent } from "../active-link/active-link.component";
-import { AuthService } from '../../../features/services/auth.service';
+// import { AuthService } from '../../../features/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +11,7 @@ import { AuthService } from '../../../features/services/auth.service';
   imports: [CommonModule, RouterLink, ActiveLinkComponent]
 })
 export class NavbarComponent {
-  authService = inject(AuthService);
+  // authService = inject(AuthService);
   router = inject(Router);
   user: any;
   menuItems = [
@@ -35,12 +35,11 @@ export class NavbarComponent {
   isMenuOpen = false;
 
   constructor(){
-    this.user = this.authService.getUser();
-    console.log(this.user)
+    // this.user = this.authService.getUser();
   }
 
   logOut() {
-    this.authService.deleteUser();
+    // this.authService.deleteUser();
 
     // Reload the current route
     window.location.reload();

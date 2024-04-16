@@ -11,11 +11,11 @@ export class DoctorsService {
   queryClient = injectQueryClient();
 
   apiClient = axios.create({
-    baseURL: environment.rootApi,
-    headers: {
-      'Content-Type' : 'application/json',
-      'Accept' : 'application/json'
-    }
+    baseURL: environment.DoctorApi,
+    // headers: {
+    //   'Content-Type' : 'application/json',
+    //   'Accept' : 'application/json'
+    // }
   })
 
   doctorsQuery = injectQuery(() => ({
@@ -29,7 +29,7 @@ export class DoctorsService {
 
   async getDoctors(): Promise<any[]> {
     try {
-      const response = await this.apiClient.get<any[]>('/doctor');
+      const response = await this.apiClient.get<any[]>('/');
       const filteredDoctors = response.data.filter(data => data.companyID == environment.hospitalCode);
       return filteredDoctors;
     } catch (error) {
@@ -41,7 +41,7 @@ export class DoctorsService {
 
   async addDoctor(model: any | FormData): Promise<any>{
     try {
-      const response = await this.apiClient.post('/doctor', model);
+      const response = await this.apiClient.post('/', model);
       return response.data;
     } catch (error) {
       console.error('Error fetching doctors:', error);
@@ -52,7 +52,7 @@ export class DoctorsService {
 
   async updateDoctor(id: any, updateData: any): Promise<any>{
     try {
-      const response = await this.apiClient.patch(`/doctor/${id}`, updateData);
+      const response = await this.apiClient.patch(`/EditDoctor/${id}`, updateData);
       return response;
     } catch (error) {
       console.error('Error fetching doctors:', error);
@@ -63,7 +63,7 @@ export class DoctorsService {
 
   async deleteDoctor(id: any): Promise<any>{
     try {
-      const response = await this.apiClient.delete(`/doctor/${id}`);
+      const response = await this.apiClient.delete(`/DeleteDoctor?id=${id}`);
       return response;
     } catch (error) {
       console.error('Error fetching doctors:', error);

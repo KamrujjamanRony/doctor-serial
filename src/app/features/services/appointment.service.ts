@@ -11,11 +11,11 @@ export class AppointmentService {
   queryClient = injectQueryClient();
 
   apiClient = axios.create({
-    baseURL: environment.rootApi,
-    headers: {
-      'Content-Type' : 'application/json',
-      'Accept' : 'application/json'
-    }
+    baseURL: environment.appointmentApi,
+    // headers: {
+    //   'Content-Type' : 'application/json',
+    //   'Accept' : 'application/json'
+    // }
   })
 
   constructor() { } 
@@ -32,7 +32,7 @@ export class AppointmentService {
 
   async getAppointments(): Promise<any[]> {
     try {
-      const response = await this.apiClient.get<any[]>('/appointment');
+      const response = await this.apiClient.get<any[]>('/');
       const filteredAppointments = response.data.filter(data => data.companyID == environment.hospitalCode);
       return filteredAppointments;
     } catch (error) {
@@ -44,7 +44,7 @@ export class AppointmentService {
 
   async addAppointment(model: any | FormData): Promise<any>{
     try {
-      const response = await this.apiClient.post('/appointment', model);
+      const response = await this.apiClient.post('/', model);
       return response.data;
     } catch (error) {
       console.error('Error fetching Appointments:', error);
@@ -55,7 +55,7 @@ export class AppointmentService {
 
   async updateAppointment(id: any, updateData: any): Promise<any>{
     try {
-      const response = await this.apiClient.patch(`/appointment/${id}`, updateData);
+      const response = await this.apiClient.patch(`/EditAppointment/${id}`, updateData);
       return response;
     } catch (error) {
       console.error('Error fetching appointment:', error);
@@ -66,7 +66,7 @@ export class AppointmentService {
 
   async deleteAppointment(id: any): Promise<any>{
     try {
-      const response = await this.apiClient.delete(`/appointment/${id}`);
+      const response = await this.apiClient.delete(`/DeleteAppointment?id=${id}`);
       return response;
     } catch (error) {
       console.error('Error fetching appointment:', error);
