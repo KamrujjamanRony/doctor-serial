@@ -79,7 +79,7 @@ export class EditDepartmentModalComponent {
   addDepartmentForm = this.fb.group({
     companyID: [environment.hospitalCode, Validators.required],
     departmentName: ["", Validators.required],
-    description: ["", Validators.required],
+    description: [""],
   });
 
   updateFormValues(): void {
@@ -94,12 +94,12 @@ export class EditDepartmentModalComponent {
 
   onSubmit(): void {
     const { departmentName, description } = this.addDepartmentForm.value;
-    if (departmentName && description) {
+    if (departmentName) {
       const formData = new FormData();
 
       formData.append('CompanyID', environment.hospitalCode.toString());
       formData.append('DepartmentName', departmentName);
-      formData.append('Description', description);
+      formData.append('Description', description || '');
       formData.append('ImgUrl', this.imgUrl);
       // const formData = { "id": this.selected.id, ...this.addDepartmentForm.value, "imgUrl": this.imgUrl }
       this.mutation.mutate(formData);

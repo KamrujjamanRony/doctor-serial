@@ -40,7 +40,7 @@ export class AddUserModalComponent {
   }));
 
   addUsersForm = this.fb.group({
-    companyID: [environment.hospitalCode, Validators.required],
+    // companyID: [environment.hospitalCode],
     username: ['', Validators.required],
     password: ['', Validators.required],
     role: ['user', Validators.required],

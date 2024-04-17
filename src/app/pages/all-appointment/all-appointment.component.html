@@ -4,11 +4,21 @@
   sub2="Appointment"
 ></app-cover>
 
-<!-- <div class="container mx-auto flex justify-end">
-  <button (click)="openAddAppointmentModal()" class="btn btn-primary text-white">
-    Add Doctor
-  </button>
-</div> -->
+<div class="container mx-auto flex justify-end gap-2">
+  <!-- <button (click)="openAddAppointmentModal()" class="btn btn-primary text-white">
+    Add Appointment
+  </button> -->
+  <select class="select select-bordered max-w-xs" [(ngModel)]="selectedDoctor">
+    <option value="">All Doctors</option>
+    @for (doctor of doctorsWithAppointments; track $index) {
+      <option [value]="doctor.id">{{ doctor.drName }}</option>
+    }
+  </select>
+  <label class="input input-bordered flex items-center gap-2">
+    <input type="text" class="grow" placeholder="Search" [(ngModel)]="searchQuery" />
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
+  </label>
+</div>
 
 <div class="mt-4 mx-4">
   <div class="w-full overflow-hidden rounded-lg shadow-xs">
@@ -34,7 +44,7 @@
           <p class="text-center text-5xl">Loading...</p>
           } @case ('error') {
           <span>Error: {{ appointmentQuery.error()?.message }}</span>
-          } @default { @for (appointment of appointmentQuery.data(); track appointment?.id) {
+          } @default { @for (appointment of filterAppointmentsBySearch(filterAppointmentsByDoctor(appointmentQuery.data())); track appointment?.id) {
           <tr
             class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
           >

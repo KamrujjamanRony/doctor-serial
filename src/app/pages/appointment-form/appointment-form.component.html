@@ -178,13 +178,6 @@
             class="input input-bordered w-full input-sm"
             required
           />
-          @if(appointmentForm.get('age')?.hasError('required') && (appointmentForm.get('age')?.dirty || appointmentForm.get('age')?.touched || isSubmitted)){
-            <div class="label !py-0">
-              <span class="label-text-alt text-rose-600 capitalize"
-                >Patient Age is required</span
-              >
-            </div>
-          }
         </label>
         <!-- sex Input -->
         <label class="form-control w-full !mt-0">
@@ -205,13 +198,6 @@
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
-          @if(appointmentForm.get('sex')?.hasError('required') && (appointmentForm.get('sex')?.dirty || appointmentForm.get('sex')?.touched || isSubmitted)){
-            <div class="label !py-0">
-              <span class="label-text-alt text-rose-600 capitalize"
-                >Patient sex is required</span
-              >
-            </div>
-          }
         </label>
         <!-- Date Input -->
         <label class="form-control w-full !mt-0">
@@ -246,30 +232,25 @@
           }
         </label>
             <!-- sL Input -->
-        <label class="form-control w-full !mt-0">
-          <div class="label !py-0">
-            <span class="label-text font-bold capitalize">Serial</span>
-          </div>
-          <input
-            type="text"
-            formControlName="sL"
-            [class.invalid]="
-              appointmentForm.get('sL')?.invalid && (appointmentForm.get('sL')?.dirty || appointmentForm.get('sL')?.touched || isSubmitted)
-            "
-            placeholder="Type here"
-            class="input input-bordered w-full input-sm outline-none"
-            required
-          />
-          @if(appointmentForm.get('sL')?.hasError('required') && (appointmentForm.get('sL')?.dirty || appointmentForm.get('sL')?.touched || isSubmitted)){
+        @if (user.role == "Admin" || user.role == "SuperAdmin") {
+          <label class="form-control w-full !mt-0">
             <div class="label !py-0">
-              <span class="label-text-alt text-rose-600 capitalize"
-                >Serial is required</span
-              >
+              <span class="label-text font-bold capitalize">Serial</span>
             </div>
-          }
-        </label>
+            <input
+              type="text"
+              formControlName="sL"
+              [class.invalid]="
+                appointmentForm.get('sL')?.invalid && (appointmentForm.get('sL')?.dirty || appointmentForm.get('sL')?.touched || isSubmitted)
+              "
+              placeholder="Type here"
+              class="input input-bordered w-full input-sm outline-none"
+              required
+            />
+          </label>
+        }
         <!-- fee Input -->
-        <label class="form-control w-full !mt-0">
+        <!-- <label class="form-control w-full !mt-0">
           <div class="label !py-0">
             <span class="label-text font-bold capitalize">Fee</span>
           </div>
@@ -290,7 +271,7 @@
               >
             </div>
           }
-        </label>
+        </label> -->
         <!-- paymentStatus Input -->
         <label class="form-control w-full !mt-0">
           <div class="label !py-0">
@@ -324,6 +305,7 @@
           </select>
         </label>
       </div>
+      @if (selected) {<p class="text-rose-400">Appointment Fee: {{selected.fee}} Tk Only</p>}
 
       <div class="!mt-2">
         <button

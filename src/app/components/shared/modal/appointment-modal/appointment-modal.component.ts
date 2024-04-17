@@ -92,8 +92,8 @@ export class AppointmentModalComponent {
   appointmentForm = this.fb.group({
     companyID: [environment.hospitalCode],
     pName: ['', Validators.required],
-    age: ['', Validators.required],
-    sex: ['', Validators.required],
+    age: [''],
+    sex: [''],
     type: [true],
     date: ['', Validators.required],
     sL: [0],
@@ -137,7 +137,7 @@ export class AppointmentModalComponent {
 
   onSubmit(): void {
     const { pName, age, sex, date, sL, type, departmentId, drCode, fee, paymentStatus, confirmed } = this.appointmentForm.value;
-    if (pName && age && sex && date) {
+    if (pName && date) {
       if (!this.selected) {
         console.log('submitted form', this.appointmentForm.value);
         // const formData = { ...this.appointmentForm.value, departmentId: this.doctor.departmentId, sL: 5, drCode: this.doctor.id, fee: this.doctor.fee, id: crypto.randomUUID() }
@@ -150,8 +150,8 @@ export class AppointmentModalComponent {
         formData.append('Type', type != null ? type.toString() : '');
         formData.append('DrCode', this.doctor.id);
         formData.append('PName', pName);
-        formData.append('Age', age);
-        formData.append('Sex', sex);
+        formData.append('Age', age || '');
+        formData.append('Sex', sex || '');
         formData.append('Fee', this.doctor.fee);
         formData.append('Username', "");
         formData.append('PaymentStatus', paymentStatus != null ? paymentStatus.toString() : '');
@@ -174,8 +174,8 @@ export class AppointmentModalComponent {
         formData.append('Type', type != null ? type.toString() : '');
         formData.append('DrCode', drCode != null ? drCode.toString() : '');
         formData.append('PName', pName);
-        formData.append('Age', age);
-        formData.append('Sex', sex);
+        formData.append('Age', age || '');
+        formData.append('Sex', sex || '');
         formData.append('Fee', fee != null ? fee.toString() : '');
         formData.append('Username', "");
         formData.append('PaymentStatus', paymentStatus != null ? paymentStatus.toString() : '');

@@ -77,15 +77,6 @@
             cols="30"
             rows="10"
           ></textarea>
-          @if(addDepartmentForm.get('description')?.hasError('required') &&
-          (addDepartmentForm.get('description')?.dirty ||
-          addDepartmentForm.get('description')?.touched || isSubmitted)){
-          <div class="label !py-0">
-            <span class="label-text-alt text-rose-600 capitalize"
-              >Description is required</span
-            >
-          </div>
-          }
         </label>
 
       </div>

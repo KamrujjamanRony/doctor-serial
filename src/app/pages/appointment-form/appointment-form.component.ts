@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environments';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
@@ -10,29 +10,55 @@ import { DoctorsService } from '../../features/services/doctors.service';
 import { CommonModule } from '@angular/common';
 import { ReactIconComponent } from '../../components/shared/react-icon/react-icon.component';
 import { ConfirmModalComponent } from '../../components/shared/modal/confirm-modal/confirm-modal.component';
+import { AuthService } from '../../features/services/auth.service';
 
 @Component({
-    selector: 'app-appointment-form',
-    standalone: true,
-    templateUrl: './appointment-form.component.html',
-    styleUrl: './appointment-form.component.css',
-    imports: [CommonModule, ReactiveFormsModule, ReactIconComponent, ConfirmModalComponent]
+  selector: 'app-appointment-form',
+  standalone: true,
+  templateUrl: './appointment-form.component.html',
+  styleUrl: './appointment-form.component.css',
+  imports: [CommonModule, ReactiveFormsModule, ReactIconComponent, ConfirmModalComponent]
 })
-export class AppointmentFormComponent {
+export class AppointmentFormComponent implements OnInit {
   fb = inject(FormBuilder);
   toastService = inject(ToastService);
   appointmentService = inject(AppointmentService);
   departmentService = inject(DepartmentService);
   doctorsService = inject(DoctorsService);
+  authService = inject(AuthService);
   doctorList: any;
   format = format;
   isSubmitted = false;
   selected!: any;
-  
-  confirmModal: boolean = false;
+  user: any;
+  confirm!: any;
+
+  confirmModal!: boolean;
+
+  ngOnInit(): void {
+    this.getConfirm()
+    // Update the form group after this.confirm is set
+    this.updateFormGroup();
+  }
+
+  // Method to update the form group
+  updateFormGroup(): void {
+    this.appointmentForm.patchValue({
+      confirmed: this.confirm
+    });
+  }
 
   closeModal() {
     this.confirmModal = false;
+  }
+
+  getConfirm() {
+    this.user = this.authService.getUser();
+    if (this.user.role == "Admin" || this.user.role == "SuperAdmin") {
+      this.confirm = true
+    } else {
+      this.confirm = false
+    }
   }
 
   departmentQuery = injectQuery(() => ({
@@ -53,13 +79,11 @@ export class AppointmentFormComponent {
     },
   }));
 
-  constructor() { }
-
-  async onDepartmentChange(){
+  async onDepartmentChange() {
     this.doctorList = await this.doctorsService.filterDoctorsByDepartment(this.appointmentForm.value.departmentId);
   }
 
-  onDoctorChange(){
+  onDoctorChange() {
     this.selected = this.doctorsService.getDoctorById(this.appointmentForm.value.drCode);
     this.updateFormValues();
   }
@@ -67,8 +91,8 @@ export class AppointmentFormComponent {
   appointmentForm = this.fb.group({
     companyID: environment.hospitalCode,
     pName: ['', Validators.required],
-    age: ['', Validators.required],
-    sex: ['', Validators.required],
+    age: [''],
+    sex: [''],
     type: true,
     date: ['', Validators.required],
     sL: "",
@@ -76,7 +100,7 @@ export class AppointmentFormComponent {
     drCode: '',
     fee: '',
     paymentStatus: false,
-    confirmed: false,
+    confirmed: this.confirm,
   })
 
   updateFormValues(): void {
@@ -90,28 +114,28 @@ export class AppointmentFormComponent {
 
   onSubmit(): void {
     const { pName, age, sex, date, type, departmentId, sL, drCode, fee, paymentStatus, confirmed } = this.appointmentForm.value;
-    if (pName && age && sex && date) {
-        console.log('submitted form', this.appointmentForm.value);
-        // const formData = { ...this.appointmentForm.value, id: crypto.randomUUID() }
-        const formData = new FormData();
+    if (drCode && pName && type && date) {
+      console.log('submitted form', this.appointmentForm.value);
+      // const formData = { ...this.appointmentForm.value, id: crypto.randomUUID() }
+      const formData = new FormData();
 
-        formData.append('CompanyID', environment.hospitalCode.toString());
-        formData.append('Date', date);
-        formData.append('DepartmentId', departmentId != null ? departmentId.toString() : '');
-        formData.append('SL', sL != null ? sL.toString() : '');
-        formData.append('Type', type != null ? type.toString() : '');
-        formData.append('DrCode', drCode != null ? drCode.toString() : '');
-        formData.append('PName', pName);
-        formData.append('Age', age);
-        formData.append('Sex', sex);
-        formData.append('Fee', fee != null ? fee.toString() : '');
-        formData.append('Username', "");
-        formData.append('PaymentStatus', paymentStatus != null ? paymentStatus.toString() : '');
-        formData.append('Confirmed', confirmed != null ? confirmed.toString() : '');
-        this.appointmentMutation.mutate(formData);
-        // toast
-        this.confirmModal = true;
-        this.isSubmitted = true;
+      formData.append('CompanyID', environment.hospitalCode.toString());
+      formData.append('Date', date);
+      formData.append('DepartmentId', departmentId != null ? departmentId.toString() : '');
+      formData.append('SL', sL != null ? sL.toString() : '');
+      formData.append('Type', type != null ? type.toString() : '');
+      formData.append('DrCode', drCode != null ? drCode.toString() : '');
+      formData.append('PName', pName);
+      formData.append('Age', age || '');
+      formData.append('Sex', sex || '');
+      formData.append('Fee', fee != null ? fee.toString() : '');
+      formData.append('Username', this.user.username);
+      formData.append('PaymentStatus', paymentStatus != null ? paymentStatus.toString() : '');
+      formData.append('Confirmed', confirmed != null ? confirmed.toString() : this.confirm);
+      this.appointmentMutation.mutate(formData);
+      // toast
+      this.confirmModal = true;
+      this.isSubmitted = true;
     }
   }
 
