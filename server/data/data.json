@@ -406,21 +406,21 @@
       "companyID": 1,
       "username": "super_soft",
       "password": "123",
-      "role": "admin"
+      "role": "SuperAdmin"
     },
     {
       "id": "2",
       "companyID": 1,
       "username": "neaz_vai",
       "password": "456",
-      "role": "user"
+      "role": "Marketing"
     },
     {
       "id": "3",
       "companyID": 1,
       "username": "kamrujjaman",
       "password": "789",
-      "role": "user"
+      "role": "User"
     }
   ]
 }

@@ -45,7 +45,7 @@
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1 text-lg">
-       @for (menuItem of menuItems; track $index) {  <!-- .slice(0,2) -->
+       @for (menuItem of menuItems.slice(0,2); track $index) {  <!-- .slice(0,2) -->
       <li>
         <app-active-link
           [to]="menuItem.link"
@@ -53,7 +53,7 @@
         ></app-active-link>
       </li>
       }
-      <!-- @if (user && user.role === "user") {
+      @if (user && user.role === "User") {
         @for (menuItem of menuItems.slice(2,3); track $index) {
           <li>
             <app-active-link
@@ -63,7 +63,7 @@
           </li>
           }
       }
-      @if (user && user.role === "admin") {
+      @if (user && user.role !== "User") {
         @for (menuItem of menuItems.slice(3,4); track $index) {
           <li>
             <app-active-link
@@ -72,7 +72,7 @@
             ></app-active-link>
           </li>
           }
-      } -->
+      }
     </ul>
   </div>
   <div class="navbar-end">

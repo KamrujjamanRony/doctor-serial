@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-// import { UsersService } from '../../features/services/users.service';
+import { UsersService } from '../../features/services/users.service';
 import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
 import { Subscription } from 'rxjs';
 import { CoverComponent } from "../../components/shared/cover/cover.component";
@@ -14,7 +14,7 @@ import { EditUserModalComponent } from "../../components/shared/modal/edit-user-
     imports: [CoverComponent, AddUserModalComponent, EditUserModalComponent]
 })
 export class AllUsersComponent {
-  // usersService = inject(UsersService)
+  usersService = inject(UsersService)
   queryClient = injectQueryClient()
   emptyImg: any;
   selectedId: any;
@@ -22,22 +22,22 @@ export class AllUsersComponent {
   editUserModal: boolean = false;
   private UserSubscription?: Subscription;
   
-  // query = injectQuery(() => ({
-  //   queryKey: ['users'],
-  //   queryFn: () => this.usersService.getUsers(),
-  // }));
+  query = injectQuery(() => ({
+    queryKey: ['users'],
+    queryFn: () => this.usersService.getUsers(),
+  }));
 
-  // mutation = injectMutation((client) => ({
-  //   mutationFn: (id: any) => this.usersService.deleteUser(id),
-  //   onSuccess: () => {
-  //     client.invalidateQueries({ queryKey: ['users'] })
-  //   },
-  // }));
+  mutation = injectMutation((client) => ({
+    mutationFn: (id: any) => this.usersService.deleteUser(id),
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ['users'] })
+    },
+  }));
 
   onDelete(id: any) {
     const result = confirm("Are you sure you want to delete this item?");
     if (result === true) {
-      // this.mutation.mutate(id);
+      this.mutation.mutate(id);
     }
   }
 
