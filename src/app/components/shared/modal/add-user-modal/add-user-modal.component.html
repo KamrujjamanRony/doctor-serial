@@ -93,7 +93,9 @@
             "
           >
             <option value="User">User</option>
+            <option value="Marketing">Staff</option>
             <option value="Marketing">Marketing</option>
+            <option value="Marketing">DrAttendant</option>
             <option value="Admin">Admin</option>
             <option value="SuperAdmin">SuperAdmin</option>
           </select>
@@ -112,3 +114,7 @@
     </form>
   </div>
 </div>
+
+@if(confirmModal){
+  <confirm-modal title="User created successfully!" (closeModal)="closeConfirmModal()" />
+}

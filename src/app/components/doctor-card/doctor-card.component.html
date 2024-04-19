@@ -5,7 +5,7 @@
     <div class="card-body">
       <h2 class="card-title lg:text-3xl">{{ doctor.drName }}</h2>
       <p class="text-accent font-bold">{{ doctor.degree }}</p>
-      <p>{{ doctor.description.slice(0, 100) }}</p>
+      <p>{{ doctor.description?.slice(0, 100) }}</p>
       @if (department) {
         <div class="card-actions justify-end">
             <button (click)="openDoctorDetails()" class="btn btn-outline btn-primary hover:!text-white">

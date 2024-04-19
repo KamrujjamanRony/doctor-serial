@@ -1,87 +1,89 @@
-<div class="navbar container mx-auto bg-primary text-white">
-  <div class="navbar-start">
-    <div class="dropdown">
-      <div
-        tabindex="0"
-        role="button"
-        class="btn btn-ghost lg:hidden"
-        (click)="toggleMenu()"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+@if (!fullUrl.includes("my-appointments")) {
+  <div class="navbar container mx-auto bg-primary text-white">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <div
+          tabindex="0"
+          role="button"
+          class="btn btn-ghost lg:hidden"
+          (click)="toggleMenu()"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h8m-8 6h16"
-          />
-        </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h8m-8 6h16"
+            />
+          </svg>
+        </div>
+        @if(isMenuOpen){
+        <ul
+          tabindex="0"
+          class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box w-72"
+        >
+          <h1 class="text-2xl py-2 text-center font-bold">SD Hospital</h1>
+          <hr class="pb-2" />
+          @for (menuItem of menuItems; track $index) {
+          <li>
+            <app-active-link
+              [to]="menuItem.link"
+              [children]="menuItem.label"
+              (click)="closeMenu()"
+            ></app-active-link>
+          </li>
+          }
+        </ul>
+        }
       </div>
-      @if(isMenuOpen){
-      <ul
-        tabindex="0"
-        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box w-72"
-      >
-        <h1 class="text-2xl py-2 text-center font-bold">SD Hospital</h1>
-        <hr class="pb-2" />
-        @for (menuItem of menuItems; track $index) {
+      <a class="btn btn-ghost text-xl">SD Hospital</a>
+    </div>
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal px-1 text-lg">
+         @for (menuItem of menuItems.slice(0,3); track $index) {  <!-- .slice(0,2) -->
         <li>
           <app-active-link
             [to]="menuItem.link"
             [children]="menuItem.label"
-            (click)="closeMenu()"
           ></app-active-link>
         </li>
         }
+        <!-- @if (user && user.role === "User") {
+          @for (menuItem of menuItems.slice(2,3); track $index) {
+            <li>
+              <app-active-link
+                [to]="menuItem.link"
+                [children]="menuItem.label"
+              ></app-active-link>
+            </li>
+            }
+        } -->
+        @if (user && user.role !== "User") {
+          @for (menuItem of menuItems.slice(3,4); track $index) {
+            <li>
+              <app-active-link
+                [to]="menuItem.link"
+                [children]="menuItem.label"
+              ></app-active-link>
+            </li>
+            }
+        }
       </ul>
-      }
     </div>
-    <a class="btn btn-ghost text-xl">SD Hospital</a>
+    <div class="navbar-end">
+      @if (user) {<span class="mr-2">{{user.username}}</span>}
+      <button
+      (click)="logOut()"
+        class="rounded text-sm bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
+      >
+        Log Out
+      </button>
+    </div>
   </div>
-  <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1 text-lg">
-       @for (menuItem of menuItems.slice(0,2); track $index) {  <!-- .slice(0,2) -->
-      <li>
-        <app-active-link
-          [to]="menuItem.link"
-          [children]="menuItem.label"
-        ></app-active-link>
-      </li>
-      }
-      @if (user && user.role === "User") {
-        @for (menuItem of menuItems.slice(2,3); track $index) {
-          <li>
-            <app-active-link
-              [to]="menuItem.link"
-              [children]="menuItem.label"
-            ></app-active-link>
-          </li>
-          }
-      }
-      @if (user && user.role !== "User") {
-        @for (menuItem of menuItems.slice(3,4); track $index) {
-          <li>
-            <app-active-link
-              [to]="menuItem.link"
-              [children]="menuItem.label"
-            ></app-active-link>
-          </li>
-          }
-      }
-    </ul>
-  </div>
-  <div class="navbar-end">
-    @if (user) {<span class="mr-2">{{user.username}}</span>}
-    <button
-    (click)="logOut()"
-      class="rounded text-sm bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
-    >
-      Log Out
-    </button>
-  </div>
-</div>
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/pages/all-appointment/all-appointment.component.css"],
+  "sourcesContent": ["@media print {\r\n    .flex-when-printing {\r\n      flex-direction: row !important;\r\n    }\r\n    .hide-when-printing {\r\n      opacity: 0 !important;\r\n    }\r\n    .left-when-printing {\r\n      margin: 0 auto !important;\r\n    }\r\n    .margin-left-when-printing {\r\n      margin-left: 3% !important;\r\n    }\r\n    .black-when-printing {\r\n        margin-left: 40px;\r\n        margin-right: 40px;\r\n      margin-top: -120px;\r\n    }\r\n    .position-when-printing {\r\n      bottom: 0 !important;\r\n      right: -20px !important;\r\n    }\r\n  }"],
+  "mappings": ";AAAA,OAAO;AACH,GAAC;AACC,oBAAgB;AAClB;AACA,GAAC;AACC,aAAS;AACX;AACA,GAAC;AACC,YAAQ,EAAE;AACZ;AACA,GAAC;AACC,iBAAa;AACf;AACA,GAAC;AACG,iBAAa;AACb,kBAAc;AAChB,gBAAY;AACd;AACA,GAAC;AACC,YAAQ;AACR,WAAO;AACT;AACF;",
+  "names": []
+}

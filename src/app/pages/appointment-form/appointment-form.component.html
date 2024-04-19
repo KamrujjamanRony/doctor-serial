@@ -272,39 +272,58 @@
             </div>
           }
         </label> -->
-        <!-- paymentStatus Input -->
-        <label class="form-control w-full !mt-0">
-          <div class="label !py-0">
-            <span class="label-text font-bold capitalize">
-              Payment Status:
-            </span>
-          </div>
-          <select
-            class="select select-bordered select-sm w-full"
-            formControlName="paymentStatus"
-          >
-            <option value="" disabled>Select Status</option>
-            <option value=false>Incomplete</option>
-            <option value=true>Complete</option>
-          </select>
-        </label>
-        <!-- confirmed Input -->
-        <label class="form-control w-full !mt-0">
-          <div class="label !py-0">
-            <span class="label-text font-bold capitalize">
-              Confirmed:
-            </span>
-          </div>
-          <select
-            class="select select-bordered select-sm w-full"
-            formControlName="confirmed"
-          >
-            <option value="" disabled>Select Status</option>
-            <option value=false>No</option>
-            <option value=true>Yes</option>
-          </select>
-        </label>
+       
       </div>
+       <!-- paymentStatus Input -->
+       <label class="form-control w-full !mt-0">
+        <div class="label !py-0">
+          <span class="label-text font-bold capitalize">
+            Payment Status:
+          </span>
+        </div>
+        <select
+          class="select select-bordered select-sm w-full"
+          formControlName="paymentStatus"
+        >
+          <option value="" disabled>Select Status</option>
+          <option value=false>Incomplete</option>
+          <option value=true>Complete</option>
+        </select>
+      </label>
+      <!-- confirmed Input -->
+      <label class="form-control w-full !mt-0">
+        <div class="label !py-0">
+          <span class="label-text font-bold capitalize">
+            Confirmed:
+          </span>
+        </div>
+        <select
+          class="select select-bordered select-sm w-full"
+          formControlName="confirmed"
+        >
+          <option value="" disabled>Select Status</option>
+          <option value=false>No</option>
+          <option value=true>Yes</option>
+        </select>
+      </label>
+      <!-- remarks Input -->
+      <label class="form-control w-full !mt-0">
+        <div class="label !py-0">
+          <span class="label-text font-bold capitalize">Remarks</span>
+        </div>
+        <textarea
+            formControlName="remarks"
+            [class.invalid]="
+              appointmentForm.get('remarks')?.invalid &&
+              (appointmentForm.get('remarks')?.dirty ||
+                appointmentForm.get('remarks')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full h-16"
+            required
+          ></textarea>
+      </label>
       @if (selected) {<p class="text-rose-400">Appointment Fee: {{selected.fee}} Tk Only</p>}
 
       <div class="!mt-2">

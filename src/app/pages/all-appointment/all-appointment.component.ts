@@ -8,6 +8,7 @@ import { DepartmentService } from '../../features/services/department.service';
 import { DoctorsService } from '../../features/services/doctors.service';
 import { AppointmentModalComponent } from '../../components/shared/modal/appointment-modal/appointment-modal.component';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-all-appointment',
@@ -20,6 +21,7 @@ export class AllAppointmentComponent {
   appointmentService = inject(AppointmentService);
   departmentService = inject(DepartmentService);
   doctorsService = inject(DoctorsService);
+  router = inject(Router);
   queryClient = injectQueryClient();
   emptyImg: any;
   selectedId: any;
@@ -35,6 +37,10 @@ export class AllAppointmentComponent {
 
   ngOnInit(): void {
     this.getDoctorsWithAppointments();
+  }
+
+  redirectToHome(): void {
+    this.router.navigateByUrl('/');
   }
 
   async getDoctorsWithAppointments(): Promise<void> {
@@ -75,10 +81,6 @@ export class AllAppointmentComponent {
     );
     return selectedAppointment;
   }
-  
-  
-  
-  
 
   onDelete(id: any) {
     const result = confirm("Are you sure you want to delete this item?");
@@ -101,6 +103,19 @@ export class AllAppointmentComponent {
 
   closeEditAppointmentModal() {
     this.editAppointmentModal = false;
+  }
+
+  // Function to print the page
+  isPrinting: boolean = false;
+  printPage() {
+    this.isPrinting = true;
+    setTimeout(() => {
+      window.print();
+      // Reset the printing state after printing is complete
+      setTimeout(() => {
+        this.isPrinting = false;
+      }, 1000); // Adjust the delay as needed
+    }, 100); // Adjust the delay as needed
   }
 
   ngOnDestroy(): void {

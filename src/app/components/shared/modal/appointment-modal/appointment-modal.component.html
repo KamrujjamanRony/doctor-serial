@@ -230,44 +230,7 @@
             </div>
           } -->
         </label>
-        <!-- Date Input -->
-        <label class="form-control w-full !mt-0">
-          <div class="label !py-0">
-            <span class="label-text font-bold capitalize"
-              >Appointment Date:</span
-            >
-          </div>
-          <!-- <input type="date" formControlName="date"
-          class="input input-bordered w-full input-sm"
-          [class.invalid]="
-            appointmentForm.get('date')?.invalid && (appointmentForm.get('date')?.dirty || appointmentForm.get('date')?.touched || isSubmitted)
-          "
-          required> -->
-          <select
-            class="select select-bordered select-sm w-full"
-            formControlName="date"
-            [class.invalid]="
-              appointmentForm.get('date')?.invalid && (appointmentForm.get('date')?.dirty || appointmentForm.get('date')?.touched || isSubmitted)
-            "
-            required
-          >
-            <option value="" disabled>Select Appointment Date</option>
-            <option
-              *ngFor="let date of dates"
-              [value]="date | date : 'yyyy-MM-dd'"
-              [disabled]="isPastDate(date)"
-            >
-              {{ date | date : "d MMMM, yyyy" }}
-            </option>
-          </select>
-          @if(appointmentForm.get('date')?.hasError('required') && (appointmentForm.get('date')?.dirty || appointmentForm.get('date')?.touched || isSubmitted)){
-            <div class="label !py-0">
-              <span class="label-text-alt text-rose-600 capitalize"
-                >Appointment Date is required</span
-              >
-            </div>
-          }
-        </label>
+        
         @if(selected){
             <!-- sL Input -->
         <label class="form-control w-full !mt-0">
@@ -292,29 +255,7 @@
             </div>
           } -->
         </label>
-        <!-- fee Input -->
-        <label class="form-control w-full !mt-0">
-          <div class="label !py-0">
-            <span class="label-text font-bold capitalize">Fee</span>
-          </div>
-          <input
-            type="text"
-            formControlName="fee"
-            [class.invalid]="
-              appointmentForm.get('fee')?.invalid && (appointmentForm.get('fee')?.dirty || appointmentForm.get('fee')?.touched || isSubmitted)
-            "
-            placeholder="Type here"
-            class="input input-bordered w-full input-sm"
-            required
-          />
-          <!-- @if(appointmentForm.get('fee')?.hasError('required') && (appointmentForm.get('fee')?.dirty || appointmentForm.get('fee')?.touched || isSubmitted)){
-            <div class="label !py-0">
-              <span class="label-text-alt text-rose-600 capitalize"
-                >Fee is required</span
-              >
-            </div>
-          } -->
-        </label>
+        
         <!-- paymentStatus Input -->
         <!-- <label class="form-control w-full !mt-0">
           <div class="label !py-0">
@@ -349,6 +290,62 @@
         </label> -->
         }
       </div>
+      <!-- Date Input -->
+      <label class="form-control w-full !mt-0">
+        <div class="label !py-0">
+          <span class="label-text font-bold capitalize"
+            >Appointment Date:</span
+          >
+        </div>
+        <!-- <input type="date" formControlName="date"
+        class="input input-bordered w-full input-sm"
+        [class.invalid]="
+          appointmentForm.get('date')?.invalid && (appointmentForm.get('date')?.dirty || appointmentForm.get('date')?.touched || isSubmitted)
+        "
+        required> -->
+        <select
+          class="select select-bordered select-sm w-full"
+          formControlName="date"
+          [class.invalid]="
+            appointmentForm.get('date')?.invalid && (appointmentForm.get('date')?.dirty || appointmentForm.get('date')?.touched || isSubmitted)
+          "
+          required
+        >
+          <option value="" disabled>Select Appointment Date</option>
+          <option
+            *ngFor="let date of dates"
+            [value]="date | date : 'yyyy-MM-dd'"
+            [disabled]="isPastDate(date)"
+          >
+            {{ date | date : "d MMMM, yyyy" }}
+          </option>
+        </select>
+        @if(appointmentForm.get('date')?.hasError('required') && (appointmentForm.get('date')?.dirty || appointmentForm.get('date')?.touched || isSubmitted)){
+          <div class="label !py-0">
+            <span class="label-text-alt text-rose-600 capitalize"
+              >Appointment Date is required</span
+            >
+          </div>
+        }
+      </label>
+      <!-- remarks Input -->
+      <label class="form-control w-full !mt-0">
+        <div class="label !py-0">
+          <span class="label-text font-bold capitalize">Remarks</span>
+        </div>
+        <textarea
+            formControlName="remarks"
+            [class.invalid]="
+              appointmentForm.get('remarks')?.invalid &&
+              (appointmentForm.get('remarks')?.dirty ||
+                appointmentForm.get('remarks')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full h-16"
+            required
+          ></textarea>
+      </label>
 
       <div class="!mt-2">
         <button

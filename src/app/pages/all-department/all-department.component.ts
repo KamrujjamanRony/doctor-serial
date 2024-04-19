@@ -7,13 +7,14 @@ import { Observable, Subscription } from 'rxjs';
 import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
 import { AddDepartmentModalComponent } from '../../components/shared/modal/add-department-modal/add-department-modal.component';
 import { EditDepartmentModalComponent } from '../../components/shared/modal/edit-department-modal/edit-department-modal.component';
+import { NavbarComponent } from "../../components/shared/navbar/navbar.component";
 
 @Component({
-  selector: 'app-all-department',
-  standalone: true,
-  templateUrl: './all-department.component.html',
-  styleUrl: './all-department.component.css',
-  imports: [CoverComponent, RouterLink, AddDepartmentModalComponent, CommonModule, EditDepartmentModalComponent]
+    selector: 'app-all-department',
+    standalone: true,
+    templateUrl: './all-department.component.html',
+    styleUrl: './all-department.component.css',
+    imports: [CoverComponent, RouterLink, AddDepartmentModalComponent, CommonModule, EditDepartmentModalComponent, NavbarComponent]
 })
 export class AllDepartmentComponent {
   departmentService = inject(DepartmentService)

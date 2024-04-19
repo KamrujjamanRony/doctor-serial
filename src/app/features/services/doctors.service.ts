@@ -42,7 +42,6 @@ export class DoctorsService {
   async addDoctor(model: any | FormData): Promise<any>{
     try {
       const response = await this.apiClient.post('/', model);
-      console.log(response)
       return response.data;
     } catch (error) {
       console.error('Error fetching doctors:', error);

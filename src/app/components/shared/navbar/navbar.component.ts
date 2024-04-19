@@ -1,8 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { NavigationExtras, Router, RouterLink } from '@angular/router';
+import { CommonModule, Location } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { ActiveLinkComponent } from "../active-link/active-link.component";
 import { AuthService } from '../../../features/services/auth.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,9 @@ import { AuthService } from '../../../features/services/auth.service';
 export class NavbarComponent {
   authService = inject(AuthService);
   router = inject(Router);
+  location = inject(Location);
   user: any;
+  fullUrl!: string;
   menuItems = [
     {
       label: 'Home',
@@ -36,6 +39,21 @@ export class NavbarComponent {
 
   constructor(){
     this.user = this.authService.getUser();
+  }
+
+  ngOnInit(): void {
+    // Subscribe to router events
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd) // Filter only NavigationEnd events
+      )
+      .subscribe(() => {
+        // Update fullUrl when route changes
+        this.fullUrl = this.location.prepareExternalUrl(this.location.path());
+      });
+
+    // Initialize fullUrl
+    this.fullUrl = this.location.prepareExternalUrl(this.location.path());
   }
 
   logOut() {

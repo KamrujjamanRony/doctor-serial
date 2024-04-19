@@ -19,8 +19,8 @@
         }
         <div>
           <h1 class="text-5xl font-bold">{{ doctor.drName }}</h1>
-          @if (doctor.degree) {<p><span class="font-bold">Degree:</span> {{ doctor.degree }}</p>}
-          @if (doctor.degree) {<p><span class="font-bold">Designation:</span> {{ doctor.designation }}</p>}
+          @if (doctor.degree) {<p style="white-space: pre-line"><span class="font-bold">Degree:</span> {{ doctor.degree }}</p>}
+          @if (doctor.designation) {<p><span class="font-bold">Designation:</span> {{ doctor.designation }}</p>}
           @if (doctor.specialty) {<p><span class="font-bold">Specialty:</span> {{ doctor.specialty }}</p>}
           @if (doctor.phone) {<p><span class="font-bold">Phone:</span> {{ doctor.phone }}</p>}
           @if (doctor.fee) {<p><span class="font-bold">Fee:</span> {{ doctor.fee }}</p>}

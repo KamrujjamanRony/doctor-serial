@@ -10,13 +10,14 @@ import { CategoryComponent } from "../../components/category/category.component"
 import { ReactIconComponent } from '../../components/shared/react-icon/react-icon.component';
 import { DepartmentService } from '../../features/services/department.service';
 import { injectQuery } from '@tanstack/angular-query-experimental';
+import { NavbarComponent } from "../../components/shared/navbar/navbar.component";
 
 @Component({
-  selector: 'app-departments',
-  standalone: true,
-  templateUrl: './departments.component.html',
-  styleUrl: './departments.component.css',
-  imports: [PageHeaderComponent, CategoryComponent, ReactIconComponent]
+    selector: 'app-departments',
+    standalone: true,
+    templateUrl: './departments.component.html',
+    styleUrl: './departments.component.css',
+    imports: [PageHeaderComponent, CategoryComponent, ReactIconComponent, NavbarComponent]
 })
 export class DepartmentsComponent {
   departmentService = inject(DepartmentService)

@@ -49,6 +49,7 @@ export class AddDepartmentModalComponent {
     if (input.files && input.files.length > 0) {
       this.imgbbService.upload(input.files[0]).subscribe(url => {
         this.imgUrl = url;
+        console.log(url)
       });
     } else {
       console.log('No files selected.');

@@ -11,6 +11,7 @@ import { DepartmentService } from '../../../../features/services/department.serv
 import { DoctorsService } from '../../../../features/services/doctors.service';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { environment } from '../../../../../environments/environments';
+import { AuthService } from '../../../../features/services/auth.service';
 
 @Component({
   selector: 'app-appointment-modal',
@@ -27,6 +28,7 @@ export class AppointmentModalComponent {
   appointmentService = inject(AppointmentService);
   departmentService = inject(DepartmentService);
   doctorsService = inject(DoctorsService);
+  authService = inject(AuthService);
   @Input() doctor: any;
   @Input() id!: any;
   @Output() closeAppointment = new EventEmitter<void>();
@@ -42,6 +44,11 @@ export class AppointmentModalComponent {
   selectedDoctor: any;
   doctorList: any;
   confirmModal: boolean = false;
+  user: any;
+
+  constructor(){
+    this.user = this.authService.getUser();
+  }
 
   closeModal() {
     this.confirmModal = false;
@@ -73,8 +80,6 @@ export class AppointmentModalComponent {
     },
   }));
 
-  constructor() { }
-
   ngOnInit(): void {
     this.selected = this.appointmentService.getAppointment(this.id);
     this.updateFormValues();
@@ -100,6 +105,7 @@ export class AppointmentModalComponent {
     departmentId: [''],
     drCode: [''],
     fee: [''],
+    remarks: '',
     paymentStatus: [false],
     confirmed: [false],
   })
@@ -120,6 +126,7 @@ export class AppointmentModalComponent {
         departmentId: this.selected.departmentId,
         drCode: this.selected.drCode,
         fee: this.selected.fee,
+        remarks: this.selected.remarks,
         paymentStatus: this.selected.paymentStatus,
         confirmed: this.selected.confirmed,
       });
@@ -136,7 +143,7 @@ export class AppointmentModalComponent {
   }
 
   onSubmit(): void {
-    const { pName, age, sex, date, sL, type, departmentId, drCode, fee, paymentStatus, confirmed } = this.appointmentForm.value;
+    const { pName, age, sex, date, sL, type, departmentId, drCode, fee, remarks, paymentStatus, confirmed } = this.appointmentForm.value;
     if (pName && date) {
       if (!this.selected) {
         console.log('submitted form', this.appointmentForm.value);
@@ -153,14 +160,17 @@ export class AppointmentModalComponent {
         formData.append('Age', age || '');
         formData.append('Sex', sex || '');
         formData.append('Fee', this.doctor.fee);
-        formData.append('Username', "");
+        formData.append('Remarks', remarks || '');
+        formData.append('Username', this.user.username);
         formData.append('PaymentStatus', paymentStatus != null ? paymentStatus.toString() : '');
         formData.append('Confirmed', confirmed != null ? confirmed.toString() : '');
 
         this.appointmentMutation.mutate(formData);
-        this.closeAppointmentModal();
         // toast
         this.confirmModal = true;
+        setTimeout(() => {
+          this.closeAppointmentModal();
+        }, 3000);
         // this.toastService.showToast('Appointment is successfully added!');
         this.isSubmitted = true;
       } else {
@@ -177,14 +187,17 @@ export class AppointmentModalComponent {
         formData.append('Age', age || '');
         formData.append('Sex', sex || '');
         formData.append('Fee', fee != null ? fee.toString() : '');
-        formData.append('Username', "");
+        formData.append('Remarks', remarks || '');
+        formData.append('Username', this.user.username);
         formData.append('PaymentStatus', paymentStatus != null ? paymentStatus.toString() : '');
         formData.append('Confirmed', confirmed != null ? confirmed.toString() : '');
 
         this.UpdateAppointmentMutation.mutate(formData);
-        this.closeAppointmentModal();
         // toast
         this.confirmModal = true;
+        setTimeout(() => {
+          this.closeAppointmentModal();
+        }, 3000);
         // this.toastService.showToast('Appointment is successfully updated!');
         this.isSubmitted = true;
       }

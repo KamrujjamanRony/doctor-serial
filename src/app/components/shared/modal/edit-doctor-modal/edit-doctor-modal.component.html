@@ -80,8 +80,7 @@
           <div class="label !py-0">
             <span class="label-text font-bold capitalize">Doctor Degree</span>
           </div>
-          <input
-            type="text"
+          <textarea
             formControlName="degree"
             [class.invalid]="
               addDoctorForm.get('degree')?.invalid &&
@@ -90,9 +89,9 @@
                 isSubmitted)
             "
             placeholder="Type here"
-            class="input input-bordered w-full input-sm outline-none"
+            class="input input-bordered w-full h-24"
             required
-          />
+          ></textarea>
           <!-- @if(addDoctorForm.get('degree')?.hasError('required') &&
           (addDoctorForm.get('degree')?.dirty ||
           addDoctorForm.get('degree')?.touched || isSubmitted)){
