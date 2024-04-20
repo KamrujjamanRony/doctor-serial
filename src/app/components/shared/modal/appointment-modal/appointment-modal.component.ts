@@ -146,7 +146,7 @@ export class AppointmentModalComponent {
     const { pName, age, sex, date, sL, type, departmentId, drCode, fee, remarks, paymentStatus, confirmed } = this.appointmentForm.value;
     if (pName && date) {
       if (!this.selected) {
-        console.log('submitted form', this.appointmentForm.value);
+        // console.log('submitted form', this.appointmentForm.value);
         // const formData = { ...this.appointmentForm.value, departmentId: this.doctor.departmentId, sL: 5, drCode: this.doctor.id, fee: this.doctor.fee, id: crypto.randomUUID() }
         const formData = new FormData();
 

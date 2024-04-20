@@ -117,7 +117,7 @@ export class AppointmentFormComponent implements OnInit {
   onSubmit(): void {
     const { pName, age, sex, date, type, departmentId, sL, drCode, fee, remarks, paymentStatus, confirmed } = this.appointmentForm.value;
     if (drCode && pName && type && date) {
-      console.log('submitted form', this.appointmentForm.value);
+      // console.log('submitted form', this.appointmentForm.value);
       // const formData = { ...this.appointmentForm.value, id: crypto.randomUUID() }
       const formData = new FormData();
 

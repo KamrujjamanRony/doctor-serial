@@ -11,7 +11,7 @@
   <select class="select select-bordered max-w-xs" [(ngModel)]="selectedDoctor">
     <option value="">All Doctors</option>
     @for (doctor of doctorsWithAppointments; track $index) {
-      <option [value]="doctor.id">{{ doctor.drName }}</option>
+      <option [value]="doctor?.id">{{ doctor?.drName }}</option>
     }
   </select>
   <label class="input input-bordered flex items-center gap-2">
@@ -83,12 +83,12 @@
               >
                 Edit
               </button>
-              <button
+              <!-- <button
                 (click)="onDelete(appointment?.id)"
-                class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded dark:bg-red-700 dark:text-green-100 inline-block hidden"
+                class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded dark:bg-red-700 dark:text-green-100 inline-block"
               >
                 Delete
-              </button>
+              </button> -->
             </td>
           </tr>
           } @empty {

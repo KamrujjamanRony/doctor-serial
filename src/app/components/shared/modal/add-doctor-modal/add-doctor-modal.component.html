@@ -242,9 +242,17 @@
             <span class="label-text font-bold capitalize">Image</span>
           </div>
           <input
-            type="file"
-            (input)="onInput($event)"
-            class="file-input file-input-bordered file-input-sm w-full"
+            type="text"
+            formControlName="imageUrl"
+            [class.invalid]="
+              addDoctorForm.get('imageUrl')?.invalid &&
+              (addDoctorForm.get('imageUrl')?.dirty ||
+                addDoctorForm.get('imageUrl')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
           />
         </label>
         <!-- description Input -->

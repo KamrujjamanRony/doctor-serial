@@ -27,7 +27,7 @@
               required
             >
               <option value="" disabled>Select Doctor</option>
-              @for (doctor of doctorList; track doctor.id) {
+              @for (doctor of doctorList; track doctor?.id) {
                 <option
                 [value]="doctor?.id"
               >

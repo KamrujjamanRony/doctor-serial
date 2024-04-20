@@ -22,7 +22,6 @@ export class AddDepartmentModalComponent {
   imgbbService = inject(ImgbbService);
   fb = inject(FormBuilder);
   queryClient = injectQueryClient();
-  imgUrl!: any;
   private addDepartmentSubscription?: Subscription;
 
   closeThisModal(): void {
@@ -42,37 +41,23 @@ export class AddDepartmentModalComponent {
     },
   }));
 
-  onInput(e: Event){
-    const input = e.target as HTMLInputElement;
-
-    // Check if 'files' is not null before accessing its first element
-    if (input.files && input.files.length > 0) {
-      this.imgbbService.upload(input.files[0]).subscribe(url => {
-        this.imgUrl = url;
-        console.log(url)
-      });
-    } else {
-      console.log('No files selected.');
-    }
-  };
-
   addDepartmentForm = this.fb.group({
     departmentName: ['', Validators.required],
     description: [''],
+    imgUrl: [''],
   });
 
   onSubmit(): void {
-    console.log(this.addDepartmentForm.value)
-    const {departmentName, description} = this.addDepartmentForm.value;
+    const {departmentName, description, imgUrl} = this.addDepartmentForm.value;
     if (departmentName) {
-      console.log('submitted form', this.addDepartmentForm.value);
+      // console.log('submitted form', this.addDepartmentForm.value);
       
     const formData = new FormData();
 
     formData.append('CompanyID', environment.hospitalCode.toString());
     formData.append('DepartmentName', departmentName);
     formData.append('Description',  description != null ? description.toString() : '');
-    formData.append('ImgUrl', this.imgUrl);
+    formData.append('ImgUrl', imgUrl || '');
       // const formData = {...this.addDepartmentForm.value, "imgUrl":this.imgUrl, id: crypto.randomUUID()}
       this.mutation.mutate(formData);
       this.closeThisModal();

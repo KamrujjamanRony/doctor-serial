@@ -24,7 +24,6 @@ export class AddDoctorModalComponent {
   imgbbService = inject(ImgbbService);
   fb = inject(FormBuilder);
   queryClient = injectQueryClient();
-  imgUrl!: any;
   private addDoctorSubscription?: Subscription;
 
   closeThisModal(): void {
@@ -49,19 +48,6 @@ export class AddDoctorModalComponent {
     },
   }));
 
-  onInput(e: Event){
-    const input = e.target as HTMLInputElement;
-
-    // Check if 'files' is not null before accessing its first element
-    if (input.files && input.files.length > 0) {
-      this.imgbbService.upload(input.files[0]).subscribe(url => {
-        this.imgUrl = url;
-      });
-    } else {
-      console.log('No files selected.');
-    }
-  };
-
   addDoctorForm = this.fb.group({
     companyID: [environment.hospitalCode, Validators.required],
     drSerial: [''],
@@ -77,13 +63,14 @@ export class AddDoctorModalComponent {
     description: [''],
     additional: [''],
     notice: [''],
+    imageUrl: [''],
     serialBlock: [''],
     newPatientLimit: [''],
     oldPatientLimit: [''],
   });
 
   onSubmit(): void {
-    const {drName, drSerial, degree, designation, specialty, departmentId, phone, fee, visitTime, room, description, additional, notice, serialBlock, newPatientLimit, oldPatientLimit } = this.addDoctorForm.value;
+    const {drName, drSerial, degree, designation, specialty, departmentId, phone, fee, visitTime, room, description, additional, notice, serialBlock, newPatientLimit, oldPatientLimit, imageUrl } = this.addDoctorForm.value;
     if (drName && departmentId) {
       
       const formData = new FormData();
@@ -105,8 +92,8 @@ export class AddDoctorModalComponent {
       formData.append('NewPatientLimit', newPatientLimit || '');
       formData.append('OldPatientLimit', oldPatientLimit || '');
       formData.append('Fee', fee != null ? fee.toString() : '');
-      formData.append('ImageUrl', this.imgUrl);
-      // const formData = {...this.addDoctorForm.value, "imageUrl":this.imgUrl, id: crypto.randomUUID()}
+      formData.append('ImageUrl', imageUrl || '');
+      // const formData = {...this.addDoctorForm.value, "imageUrl":this.imageUrl, id: crypto.randomUUID()}
       this.mutation.mutate(formData);
       this.closeThisModal();
     }

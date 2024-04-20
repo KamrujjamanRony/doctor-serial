@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/shared/toast/toast.component.css"],
-  "sourcesContent": [".toast {\r\n  width: fit-content;\r\n  max-width: 500px;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  right: 5%;\r\n  background-color: #333;\r\n  color: #fff;\r\n  padding: 10px 20px;\r\n  border-radius: 5px;\r\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\r\n  z-index: 1000;\r\n}\r\n"],
-  "mappings": ";AAAA,CAAC;AACC,SAAO;AACP,aAAW;AACX,YAAU;AACV,UAAQ;AACR,SAAO;AACP,oBAAkB;AAClB,SAAO;AACP,WAAS,KAAK;AACd,iBAAe;AACf,cAAY,EAAE,IAAI,IAAI,KAAK,CAAC,EAAE,CAAC,EAAE,CAAC,EAAE;AACpC,WAAS;AACX;",
-  "names": []
-}

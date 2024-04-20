@@ -10,27 +10,27 @@
 
     <div class="hero">
       <div class="hero-content flex-col lg:flex-row">
-        @if (doctor.imageUrl && doctor.imageUrl != "undefined") {
+        @if (doctor?.imageUrl && doctor?.imageUrl != "undefined") {
           <img
-          [src]="doctor.imageUrl"
+          [src]="doctor?.imageUrl"
           class="md:max-w-md w-40 rounded-lg shadow-2xl"
-          [alt]="doctor.drName"
+          [alt]="doctor?.drName"
         />
         }
         <div>
-          <h1 class="text-5xl font-bold">{{ doctor.drName }}</h1>
-          @if (doctor.degree) {<p style="white-space: pre-line"><span class="font-bold">Degree:</span> {{ doctor.degree }}</p>}
-          @if (doctor.designation) {<p><span class="font-bold">Designation:</span> {{ doctor.designation }}</p>}
-          @if (doctor.specialty) {<p><span class="font-bold">Specialty:</span> {{ doctor.specialty }}</p>}
-          @if (doctor.phone) {<p><span class="font-bold">Phone:</span> {{ doctor.phone }}</p>}
-          @if (doctor.fee) {<p><span class="font-bold">Fee:</span> {{ doctor.fee }}</p>}
-          @if (doctor.room) {<p><span class="font-bold">Room:</span> {{ doctor.room }}</p>}
-          @if (doctor.visitTime) {<p><span class="font-bold">Visit Time:</span> {{ doctor.visitTime }}</p>}
-          @if (doctor.departmentId) {<p>Department of <span class="font-bold">{{ departmentService.getDepartmentById(doctor.departmentId) }}</span></p>}
+          <h1 class="text-5xl font-bold">{{ doctor?.drName }}</h1>
+          @if (doctor?.degree) {<p style="white-space: pre-line"><span class="font-bold">Degree:</span> {{ doctor?.degree }}</p>}
+          @if (doctor?.designation) {<p><span class="font-bold">Designation:</span> {{ doctor?.designation }}</p>}
+          @if (doctor?.specialty) {<p><span class="font-bold">Specialty:</span> {{ doctor?.specialty }}</p>}
+          @if (doctor?.phone) {<p><span class="font-bold">Phone:</span> {{ doctor?.phone }}</p>}
+          @if (doctor?.fee) {<p><span class="font-bold">Fee:</span> {{ doctor?.fee }}</p>}
+          @if (doctor?.room) {<p><span class="font-bold">Room:</span> {{ doctor?.room }}</p>}
+          @if (doctor?.visitTime) {<p><span class="font-bold">Visit Time:</span> {{ doctor?.visitTime }}</p>}
+          @if (doctor?.departmentId) {<p>Department of <span class="font-bold">{{ departmentService.getDepartmentById(doctor?.departmentId) }}</span></p>}
           <div class="pt-2">
-            @if (doctor.description) {<p><span class="font-bold">Description:</span> {{ doctor.description }}</p>}
-          @if (doctor.additional) {<p><span class="font-bold">Additional Information:</span> {{ doctor.additional }}</p>}
-          @if (doctor.notice) {<p><span class="font-bold">Notice:</span> {{ doctor.notice }}</p>}
+            @if (doctor?.description) {<p><span class="font-bold">Description:</span> {{ doctor?.description }}</p>}
+          @if (doctor?.additional) {<p><span class="font-bold">Additional Information:</span> {{ doctor?.additional }}</p>}
+          @if (doctor?.notice) {<p><span class="font-bold">Notice:</span> {{ doctor?.notice }}</p>}
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ export const environment = {
     authApi: 'https://digital.supersoftbd.com/HWS/Authentication',
     appointmentApi: 'https://digital.supersoftbd.com/HWS/Appointment',
     DepartmentApi: 'https://digital.supersoftbd.com/HWS/Department',
-    DoctorApi: 'http://digital.supersoftbd.com/HWS/Doctor',
+    DoctorApi: 'https://digital.supersoftbd.com/HWS/Doctor',
     AboutApi: 'https://mec.supersoftbd.com/apiA/AboutUs',
     ContactApi: 'https://mec.supersoftbd.com/apiA/Address',
     CarouselApi: 'https://mec.supersoftbd.com/apiA/Carousel',

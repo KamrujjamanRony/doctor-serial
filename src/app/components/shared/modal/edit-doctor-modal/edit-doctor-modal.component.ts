@@ -25,7 +25,6 @@ export class EditDoctorModalComponent {
   imgbbService = inject(ImgbbService);
   fb = inject(FormBuilder);
   queryClient = injectQueryClient();
-  imageUrl!: any;
   selected!: any;
   private editDoctorSubscription?: Subscription;
 
@@ -57,25 +56,13 @@ export class EditDoctorModalComponent {
     },
   }));
 
-  onInput(e: Event){
-    const input = e.target as HTMLInputElement;
-
-    // Check if 'files' is not null before accessing its first element
-    if (input.files && input.files.length > 0) {
-      this.imgbbService.upload(input.files[0]).subscribe(url => {
-        this.imageUrl = url;
-      });
-    } else {
-      console.log('No files selected.');
-    }
-  };
-
   addDoctorForm = this.fb.group({
     companyID: [environment.hospitalCode, Validators.required],
     drSerial: [''],
     drName: ['', Validators.required],
     degree: [''],
     designation: [''],
+    imageUrl: [''],
     specialty: [''],
     departmentId: ['', Validators.required],
     phone: [''],
@@ -97,6 +84,7 @@ export class EditDoctorModalComponent {
         drSerial: this.selected.drSerial,
         drName: this.selected.drName,
         degree: this.selected.degree,
+        imageUrl: this.selected.imageUrl,
         designation: this.selected.designation,
         specialty: this.selected.specialty,
         departmentId: this.selected.departmentId,
@@ -111,12 +99,11 @@ export class EditDoctorModalComponent {
         newPatientLimit: this.selected.newPatientLimit,
         oldPatientLimit: this.selected.oldPatientLimit,
       });
-      this.imageUrl = this.selected.imageUrl;
     }
   }
 
   onSubmit(): void {
-    const {drName, drSerial, degree, designation, specialty, departmentId, phone, fee, visitTime, room, description, additional, notice, serialBlock, newPatientLimit, oldPatientLimit } = this.addDoctorForm.value;
+    const {drName, drSerial, degree, designation, specialty, departmentId, phone, fee, visitTime, room, description, additional, notice, serialBlock, newPatientLimit, oldPatientLimit, imageUrl } = this.addDoctorForm.value;
     if (drName && departmentId) {
       // console.log('submitted form', this.addDoctorForm.value);
       // const formData = {...this.addDoctorForm.value, "imageUrl":this.imageUrl, id: this.selected.id}
@@ -139,7 +126,7 @@ export class EditDoctorModalComponent {
       formData.append('NewPatientLimit', newPatientLimit || '');
       formData.append('OldPatientLimit', oldPatientLimit || '');
       formData.append('Fee', fee || '');
-      formData.append('ImageUrl', this.imageUrl);
+      formData.append('ImageUrl', imageUrl || '');
       this.mutation.mutate(formData);
       this.closeThisModal();
     }

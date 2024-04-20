@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/shared/modal/appointment-modal/appointment-modal.component.css"],
-  "sourcesContent": [".invalid{\r\n    border: 1px solid red;\r\n}"],
-  "mappings": ";AAAA,CAAC;AACG,UAAQ,IAAI,MAAM;AACtB;",
-  "names": []
-}

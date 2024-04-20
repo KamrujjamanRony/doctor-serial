@@ -35,36 +35,36 @@
           <p class="text-center text-5xl">Loading...</p>
           } @case ('error') {
           <span>Error: {{ query.error()?.message }}</span>
-          } @default { @for (doctor of query.data(); track doctor.id) {
+          } @default { @for (doctor of query.data(); track doctor?.id) {
           <tr
             class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
           >
             <td class="px-4 py-3">
               <img
-                [src]="doctor?.imageUrl !== '' ? doctor.imageUrl : emptyImg"
+                [src]="doctor?.imageUrl !== '' ? doctor?.imageUrl : emptyImg"
                 alt="Doctor Image"
                 class="w-8 md:w-16 rounded"
               />
             </td>
-            <td class="px-4 py-3 text-xs">{{ doctor.drName }}</td>
-            <td class="px-4 py-3 text-xs">{{ doctor.degree }}</td>
-            <td class="px-4 py-3 text-xs">{{ doctor.designation }}</td>
-            <td class="px-4 py-3 text-xs">{{ doctor.specialty }}</td>
-            <td class="px-4 py-3 text-xs">{{ doctor.phone }}</td>
-            <td class="px-4 py-3 text-xs">{{ doctor.fee }}</td>
-            <td class="px-4 py-3 text-xs">{{ doctor.room }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor?.drName }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor?.degree }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor?.designation }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor?.specialty }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor?.phone }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor?.fee }}</td>
+            <td class="px-4 py-3 text-xs">{{ doctor?.room }}</td>
             <td class="px-4 py-3 text-sm">
               {{ doctor?.description?.slice(0, 50) }}...
             </td>
             <td class="px-4 py-3 text-sm">
               <button
-                (click)="openEditDoctorModal(doctor.id)"
+                (click)="openEditDoctorModal(doctor?.id)"
                 class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded dark:bg-green-700 dark:text-green-100 mr-2 inline-block my-2"
               >
                 Edit
               </button>
               <button
-                (click)="onDelete(doctor.id)"
+                (click)="onDelete(doctor?.id)"
                 class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded dark:bg-red-700 dark:text-green-100 inline-block"
               >
                 Delete

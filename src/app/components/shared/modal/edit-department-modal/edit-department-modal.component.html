@@ -50,13 +50,20 @@
         <!-- Image Input -->
         <label class="form-control w-full !mt-0">
           <div class="label !py-0">
-            <span class="label-text font-bold capitalize">Department Icon</span>
+            <span class="label-text font-bold capitalize">Image</span>
           </div>
-          <img src={{imgUrl}} alt="department-image" class="w-20 h-20 my-2">
           <input
-            type="file"
-            (input)="onInput($event)"
-            class="file-input file-input-bordered file-input-sm w-full"
+            type="text"
+            formControlName="imgUrl"
+            [class.invalid]="
+              addDepartmentForm.get('imgUrl')?.invalid &&
+              (addDepartmentForm.get('imgUrl')?.dirty ||
+                addDepartmentForm.get('imgUrl')?.touched ||
+                isSubmitted)
+            "
+            placeholder="Type here"
+            class="input input-bordered w-full input-sm outline-none"
+            required
           />
         </label>
         <!-- description Input -->
