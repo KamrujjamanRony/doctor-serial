@@ -81,6 +81,12 @@ export class DepartmentService {
     return selected?.departmentName;
   }
 
+  getDepartmentByDoctorId(id: any): any{
+    const departments = this.queryClient.getQueryData(['departments']) as any[];
+    const selected = departments?.find((d) => d.id == id);
+    return selected;
+  }
+
   // getDepartments(): Promise<any[]> {
   //   return lastValueFrom(
   //     this.http.get<any[]>(environment.DepartmentApi).pipe(

@@ -28,7 +28,7 @@
           tabindex="0"
           class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box w-72"
         >
-          <h1 class="text-2xl py-2 text-center font-bold">SD Hospital</h1>
+          <h1 class="text-2xl py-2 text-center font-bold">{{this.jsonData?.name}}</h1>
           <hr class="pb-2" />
           @for (menuItem of menuItems; track $index) {
           <li>
@@ -42,7 +42,7 @@
         </ul>
         }
       </div>
-      <a class="btn btn-ghost text-xl">SD Hospital</a>
+      <a class="btn btn-ghost text-xl">{{this.jsonData?.name}}</a>
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1 text-lg">

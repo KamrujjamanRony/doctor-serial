@@ -5,6 +5,9 @@
     .hide-when-printing {
       opacity: 0 !important;
     }
+    .hidden-when-printing {
+      display: none !important;
+    }
     .left-when-printing {
       margin: 0 auto !important;
     }

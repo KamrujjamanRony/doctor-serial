@@ -37,6 +37,7 @@ export class PrintAppointmentComponent {
 
   ngOnInit(): void {
     this.getDoctorsWithAppointments();
+    this.printPage();
   }
 
   redirectToHome(): void {
@@ -115,14 +116,19 @@ export class PrintAppointmentComponent {
   isPrinting: boolean = false;
   printPage() {
     this.isPrinting = true;
+    
+    // Delay before printing
     setTimeout(() => {
       window.print();
-      // Reset the printing state after printing is complete
+      
+      // Delay after printing before resetting the printing state
       setTimeout(() => {
         this.isPrinting = false;
-      }, 1000); // Adjust the delay as needed
+        this.router.navigateByUrl('/all-appointment');
+      }, 500); // Adjust the delay as needed
     }, 100); // Adjust the delay as needed
   }
+  
 
   ngOnDestroy(): void {
     this.appointmentSubscription?.unsubscribe();

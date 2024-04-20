@@ -3,7 +3,7 @@ import { AppointmentService } from '../../features/services/appointment.service'
 import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
 import { Subscription } from 'rxjs';
 import { CoverComponent } from "../../components/shared/cover/cover.component";
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { DepartmentService } from '../../features/services/department.service';
 import { DoctorsService } from '../../features/services/doctors.service';
 import { AppointmentModalComponent } from '../../components/shared/modal/appointment-modal/appointment-modal.component';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
     standalone: true,
     templateUrl: './all-appointment.component.html',
     styleUrl: './all-appointment.component.css',
-    imports: [CoverComponent, AppointmentModalComponent, FormsModule]
+    imports: [CoverComponent, AppointmentModalComponent, FormsModule, CommonModule]
 })
 export class AllAppointmentComponent {
   appointmentService = inject(AppointmentService);
@@ -30,7 +30,9 @@ export class AllAppointmentComponent {
   private appointmentSubscription?: Subscription;
   searchQuery: string = '';
   
+  selectedDate: string = '';
   selectedDoctor: string = '';
+  selectedDepartment: string = '';
   doctorsWithAppointments: any = [];
 
   constructor() {}
@@ -67,7 +69,7 @@ export class AllAppointmentComponent {
     }
     const selectedAppointment = appointments.filter((appointment: any) =>
       this.doctorsService.getDoctorById(appointment?.drCode)?.drName?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
-      this.departmentService.getDepartmentById(appointment?.departmentId)?.departmentName?.includes(this.searchQuery.toLowerCase()) ||
+      this.departmentService.getDepartmentById(appointment?.departmentId)?.departmentName?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
       appointment?.pName?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
       appointment?.age?.includes(this.searchQuery) ||
       appointment?.sex?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
@@ -77,14 +79,22 @@ export class AllAppointmentComponent {
     return selectedAppointment;
   }
 
+  filterAppointmentsByDate(appointments: any): any {
+    if (this.selectedDate == "") {
+      return appointments; // If search query is empty, return all appointments
+    }
+
+    const selectedAppointment = appointments.filter((appointment: any) => appointment && appointment?.date?.includes(this.selectedDate));
+    return selectedAppointment;
+  }
+
   filterAppointmentsByDoctor(appointments: any): any {
     if (this.selectedDoctor == "") {
       return appointments; // If search query is empty, return all appointments
     }
 
-    const selectedAppointment = appointments.filter((appointment: { drCode: any; }) =>
-      appointment && appointment.drCode == this.selectedDoctor
-    );
+    const selectedAppointment = appointments.filter((appointment: any) => appointment && appointment.drCode == this.selectedDoctor);
+    this.selectedDepartment = selectedAppointment[0]?.departmentId;
     return selectedAppointment;
   }
 

@@ -4,6 +4,7 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { ActiveLinkComponent } from "../active-link/active-link.component";
 import { AuthService } from '../../../features/services/auth.service';
 import { filter } from 'rxjs';
+import { DataService } from '../../../features/services/data.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,10 +14,12 @@ import { filter } from 'rxjs';
 })
 export class NavbarComponent {
   authService = inject(AuthService);
+  dataService = inject(DataService);
   router = inject(Router);
   location = inject(Location);
   user: any;
   fullUrl!: string;
+  jsonData: any;
   menuItems = [
     {
       label: 'Home',
@@ -42,6 +45,9 @@ export class NavbarComponent {
   }
 
   ngOnInit(): void {
+    this.dataService.getJsonData().subscribe(data => {
+      this.jsonData = data;
+    });
     // Subscribe to router events
     this.router.events
       .pipe(
