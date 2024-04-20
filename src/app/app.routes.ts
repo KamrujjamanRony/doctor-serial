@@ -11,6 +11,7 @@ import { AppointmentFormComponent } from './pages/appointment-form/appointment-f
 import { AllUsersComponent } from './pages/all-users/all-users.component';
 import { MyAppointmentsComponent } from './pages/my-appointments/my-appointments.component';
 import { RedirectComponent } from './pages/redirect.component';
+import { PrintAppointmentComponent } from './pages/print-appointment/print-appointment.component';
 
 export const routes: Routes = [
   {
@@ -54,5 +55,9 @@ export const routes: Routes = [
   {
     path: 'all-appointment',
     component: AllAppointmentComponent,
+  },
+  {
+    path: 'print',
+    component: PrintAppointmentComponent,
   },
 ];

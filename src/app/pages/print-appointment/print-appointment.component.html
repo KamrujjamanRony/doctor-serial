@@ -1,0 +1,118 @@
+<app-cover [class.hide-when-printing]="isPrinting"
+  title="All Appointment List"
+  sub1="Dashboard"
+  sub2="Appointment"
+></app-cover>
+
+<div class="container mx-auto flex justify-end gap-2" [class.hide-when-printing]="isPrinting">
+  <!-- <button (click)="openAddAppointmentModal()" class="btn btn-primary text-white">
+    Add Appointment
+  </button> -->
+  <select class="select select-bordered max-w-xs" [(ngModel)]="selectedDoctor">
+    <option value="">All Doctors</option>
+    @for (doctor of doctorsWithAppointments; track $index) {
+      <option [value]="doctor.id">{{ doctor.drName }}</option>
+    }
+  </select>
+  <label class="input input-bordered flex items-center gap-2">
+    <input type="text" class="grow" placeholder="Search" [(ngModel)]="searchQuery" />
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
+  </label>
+  <!-- Home -->
+  <div class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
+    <button
+      (click)="redirectToHome()"
+      type="button"
+      class="btn btn-primary text-white"
+    >
+      Back Home
+    </button>
+  </div>
+  <!-- Print -->
+  <div class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
+    <a
+      (click)="printPage()"
+      type="button"
+      class="btn btn-primary text-white"
+    >
+      Print Page
+    </a>
+  </div>
+</div>
+
+<div class="mt-4 mx-4" [class.black-when-printing]="isPrinting">
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      @if (selectedDoctor) {
+        <h1 class="text-3xl font-bold p-2">{{this.doctorsService.getDoctorById(selectedDoctor)?.drName}}</h1>
+      }
+      <table class="w-full">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+          >
+          <th class="px-4 py-3">Sl</th>
+          <th class="px-4 py-3">Doctor Name</th>
+            <th class="px-4 py-3">Department</th>
+            <th class="px-4 py-3">Date</th>
+            <th class="px-4 py-3">Patient Name</th>
+            <th class="px-4 py-3">Age</th>
+            <th class="px-4 py-3">Sex</th>
+            <th class="px-4 py-3">Type</th>
+            <th class="px-4 py-3" [class.hide-when-printing]="isPrinting">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+          @switch (appointmentQuery.status()) { @case ('pending') {
+          <p class="text-center text-5xl">Loading...</p>
+          } @case ('error') {
+          <span>Error: {{ appointmentQuery.error()?.message }}</span>
+          } @default { @for (appointment of filterAppointmentsBySearch(filterAppointmentsByDoctor(appointmentQuery.data())); track appointment?.id) {
+          <tr
+            class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
+          >
+          <td class="px-4 py-3 text-xs">{{ appointment?.sl }}</td>
+            <td class="px-4 py-3 text-xs">{{ this.doctorsService.getDoctorById(appointment?.drCode)?.drName }}</td>
+            <td class="px-4 py-3 text-xs">{{ departmentService.getDepartmentById(appointment?.departmentId) }}</td>
+            <td class="px-4 py-3 text-xs">{{ transform(appointment?.date) }}</td>
+            <td class="px-4 py-3 text-xs">{{ appointment?.pName }}</td>
+            <td class="px-4 py-3 text-xs">{{ appointment?.age }}</td>
+            <td class="px-4 py-3 text-xs">{{ appointment?.sex }}</td>
+            <td class="px-4 py-3 text-xs">@if (appointment?.type) {New} @else {Old}</td>
+            <td class="px-4 py-3 text-sm" [class.hide-when-printing]="isPrinting">
+              <button
+                (click)="openEditAppointmentModal(appointment?.id)"
+                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded dark:bg-green-700 dark:text-green-100 mr-2 inline-block my-2"
+              >
+                Edit
+              </button>
+              <button
+                (click)="onDelete(appointment?.id)"
+                class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded dark:bg-red-700 dark:text-green-100 inline-block"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+          } @empty {
+          <li>No appointment found</li>
+          } } }
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+    ></div>
+  </div>
+</div>
+<!-- edit modal start -->
+@if(editAppointmentModal) {
+  <app-appointment-modal
+    [id]="selectedId"
+    (closeAppointment)="closeEditAppointmentModal()"
+  ></app-appointment-modal>
+  }
+  <!-- edit modal end -->
+
+
+

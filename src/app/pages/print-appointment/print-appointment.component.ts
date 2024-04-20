@@ -1,23 +1,23 @@
 import { Component, inject } from '@angular/core';
-import { AppointmentService } from '../../features/services/appointment.service';
-import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
-import { Subscription } from 'rxjs';
-import { CoverComponent } from "../../components/shared/cover/cover.component";
-import { DatePipe } from '@angular/common';
-import { DepartmentService } from '../../features/services/department.service';
-import { DoctorsService } from '../../features/services/doctors.service';
+import { CoverComponent } from '../../components/shared/cover/cover.component';
 import { AppointmentModalComponent } from '../../components/shared/modal/appointment-modal/appointment-modal.component';
 import { FormsModule } from '@angular/forms';
+import { AppointmentService } from '../../features/services/appointment.service';
+import { DepartmentService } from '../../features/services/department.service';
+import { DoctorsService } from '../../features/services/doctors.service';
 import { Router } from '@angular/router';
+import { injectMutation, injectQuery, injectQueryClient } from '@tanstack/angular-query-experimental';
+import { Subscription } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
-    selector: 'app-all-appointment',
-    standalone: true,
-    templateUrl: './all-appointment.component.html',
-    styleUrl: './all-appointment.component.css',
-    imports: [CoverComponent, AppointmentModalComponent, FormsModule]
+  selector: 'app-print-appointment',
+  standalone: true,
+  imports: [CoverComponent, AppointmentModalComponent, FormsModule],
+  templateUrl: './print-appointment.component.html',
+  styleUrl: './print-appointment.component.css'
 })
-export class AllAppointmentComponent {
+export class PrintAppointmentComponent {
   appointmentService = inject(AppointmentService);
   departmentService = inject(DepartmentService);
   doctorsService = inject(DoctorsService);
@@ -127,4 +127,5 @@ export class AllAppointmentComponent {
   ngOnDestroy(): void {
     this.appointmentSubscription?.unsubscribe();
   }
+
 }
