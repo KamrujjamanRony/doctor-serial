@@ -36,6 +36,7 @@ export class AllDepartmentComponent {
     queryFn: () => this.departmentService.getDepartments(),
   }));
 
+  
 
 
   mutation = injectMutation((client) => ({

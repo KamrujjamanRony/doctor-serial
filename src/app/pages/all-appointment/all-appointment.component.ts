@@ -69,7 +69,7 @@ export class AllAppointmentComponent {
     }
     const selectedAppointment = appointments.filter((appointment: any) =>
       this.doctorsService.getDoctorById(appointment?.drCode)?.drName?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
-      this.departmentService.getDepartmentById(appointment?.departmentId)?.departmentName?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
+      this.departmentService.getDepartmentById(appointment?.departmentId)?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
       appointment?.pName?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
       appointment?.age?.includes(this.searchQuery) ||
       appointment?.sex?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
@@ -96,6 +96,14 @@ export class AllAppointmentComponent {
     const selectedAppointment = appointments.filter((appointment: any) => appointment && appointment.drCode == this.selectedDoctor);
     this.selectedDepartment = selectedAppointment[0]?.departmentId;
     return selectedAppointment;
+  }
+
+  sortAppointments(appointments: any): any {
+    if (appointments.length === 0) {
+      return appointments;
+    }
+
+    return appointments.sort((a: any, b: any) => a.sl - b.sl);
   }
 
   onDelete(id: any) {

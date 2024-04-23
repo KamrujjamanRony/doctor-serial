@@ -33,7 +33,9 @@ export class MyAppointmentsComponent {
   private appointmentSubscription?: Subscription;
   searchQuery: string = '';
   
+  selectedDate: string = '';
   selectedDoctor: string = '';
+  selectedDepartment: string = '';
   doctorsWithAppointments: any = [];
   user: any;
 
@@ -51,7 +53,7 @@ export class MyAppointmentsComponent {
 
   async getDoctorsWithAppointments(): Promise<void> {
     const appointments = await this.appointmentService.getAppointments();
-    const doctorIds = appointments.filter(appointment => appointment.username == this.user.username).map(appointment => appointment.drCode);
+    const doctorIds = appointments.map(appointment => appointment.drCode);
     this.doctorsWithAppointments = (await this.doctorsService.getDoctors()).filter(doctor => doctorIds.includes(doctor.id));
   }
 
@@ -81,9 +83,24 @@ export class MyAppointmentsComponent {
     if (!this.searchQuery.trim()) {
       return appointments; // If search query is empty, return all appointments
     }
-    const selectedAppointment = appointments.filter((appointment: { drCode: any; }) =>
-      this.doctorsService.getDoctorById(appointment?.drCode)?.drName.toLowerCase().includes(this.searchQuery.toLowerCase())
+    const selectedAppointment = appointments.filter((appointment: any) =>
+      this.doctorsService.getDoctorById(appointment?.drCode)?.drName?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
+      this.departmentService.getDepartmentById(appointment?.departmentId)?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
+      appointment?.pName?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
+      appointment?.age?.includes(this.searchQuery) ||
+      appointment?.sex?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
+      appointment?.username?.toLowerCase()?.includes(this.searchQuery.toLowerCase()) ||
+      appointment?.remarks?.toLowerCase()?.includes(this.searchQuery.toLowerCase())
     );
+    return selectedAppointment;
+  }
+
+  filterAppointmentsByDate(appointments: any): any {
+    if (this.selectedDate == "") {
+      return appointments; // If search query is empty, return all appointments
+    }
+
+    const selectedAppointment = appointments.filter((appointment: any) => appointment && appointment?.date?.includes(this.selectedDate));
     return selectedAppointment;
   }
 
@@ -92,10 +109,17 @@ export class MyAppointmentsComponent {
       return appointments; // If search query is empty, return all appointments
     }
 
-    const selectedAppointment = appointments.filter((appointment: { drCode: any; }) =>
-      appointment && appointment.drCode == this.selectedDoctor
-    );
+    const selectedAppointment = appointments.filter((appointment: any) => appointment && appointment.drCode == this.selectedDoctor);
+    this.selectedDepartment = selectedAppointment[0]?.departmentId;
     return selectedAppointment;
+  }
+
+  sortAppointments(appointments: any): any {
+    if (appointments.length === 0) {
+      return appointments;
+    }
+
+    return appointments.sort((a: any, b: any) => a.sl - b.sl);
   }
   
   

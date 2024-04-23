@@ -1,11 +1,11 @@
-<a class="block" [routerLink]="['/serial', category.id]">
-  <div class="card group hover:shadow-2xl shadow-lg rounded-none">
+<a class="block h-full" [routerLink]="['/serial', category.id]">
+  <div class="card group hover:shadow-2xl shadow-lg rounded-none h-full">
     <figure class="px-10 pt-10">
       <div
-        class="border-2 border-primary text-accent p-6 rounded-3xl text-5xl group-hover:bg-primary group-hover:text-white"
+        class="border-2 border-primary text-accent pt-4 pb-3 px-4 rounded-2xl text-5xl group-hover:bg-primary group-hover:text-white"
       >
       <span class="inline-block">
-        <img class="w-24 h-24" [src]="category.imgUrl" alt="">
+        <img class="w-32 h-32 rounded-xl" [src]="category.imgUrl" alt="">
       </span>
       </div>
     </figure>
