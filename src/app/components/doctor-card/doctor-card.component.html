@@ -1,6 +1,6 @@
 <div class="card lg:card-side bg-base-100 shadow-xl">
     <figure>
-      <img class="w-72 object-fill h-[300px]" [src]="doctor.imageUrl" alt="Doctor Image">
+      <img class="w-72 object-fill h-[300px]" [src]="doctor.imageUrl ? doctor.imageUrl : doctorMale" alt="Doctor Image">
     </figure>
     <div class="card-body">
       <h2 class="card-title lg:text-3xl">{{ doctor?.drName }}</h2>

@@ -20,7 +20,7 @@ export class AllDoctorsComponent {
   doctorsService = inject(DoctorsService);
   departmentService = inject(DepartmentService);
   queryClient = injectQueryClient()
-  emptyImg: any;
+  emptyImg = '../../../assets/images/doctor.png';
   selectedId: any;
   addDoctorModal: boolean = false;
   editDoctorModal: boolean = false;

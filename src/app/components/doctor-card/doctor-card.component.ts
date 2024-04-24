@@ -15,6 +15,7 @@ export class DoctorCardComponent {
   department!: string;
   showModal: boolean = false;
   showAppointment: boolean = false;
+  doctorMale = '../../../assets/images/doctor.png';
 
   constructor() { }
 
